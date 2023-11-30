@@ -1,0 +1,73 @@
+package com.tekup.LibraryApp.service.user;
+
+import com.tekup.LibraryApp.model.user.Role;
+import com.tekup.LibraryApp.model.user.User;
+import com.tekup.LibraryApp.payload.request.ChangePasswordRequest;
+import com.tekup.LibraryApp.payload.response.ErrorResponse;
+import com.tekup.LibraryApp.payload.response.MessageResponse;
+import com.tekup.LibraryApp.repository.user.RoleRepository;
+import com.tekup.LibraryApp.repository.user.UserRepository;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import com.tekup.LibraryApp.exception.ResourceNotFoundException;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import java.security.Principal;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+
+@Service
+@RequiredArgsConstructor
+public class UserServiceImp implements UserService {
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final RoleRepository roleRepository;
+
+    private void seedRoles() {
+        roleRepository.save(new Role(1L, "ADMIN"));
+        roleRepository.save(new Role(2L, "DRIVER"));
+        roleRepository.save(new Role(3L, "PASSENGER"));
+    }
+
+    public boolean seedInitialUsers() {
+        seedRoles();
+        Role adminRole = roleRepository.findByName("ADMIN").orElseThrow(
+                () -> new ResourceNotFoundException("Role not found for name: ADMIN")
+                );
+        Role driverRole = roleRepository.findByName("DRIVER").orElseThrow(
+                () -> new ResourceNotFoundException("Role not found for name: DRIVER")
+                );
+        Role passengerRole = roleRepository.findByName("PASSENGER").orElseThrow(
+                () -> new ResourceNotFoundException("Role not found for name: PASSENGER")
+                );
+        User admin1 = new User(1L, "Ali", "Ben Ali", "ali@gmail.com", BCrypt.hashpw("alipassword", BCrypt.gensalt()), Collections.singleton(adminRole), true);
+        User driver1 = new User(2L, "Saleh", "Ben Saleh", "saleh@gmail.com", BCrypt.hashpw("salehpassword", BCrypt.gensalt()), Collections.singleton(driverRole), true);
+        User passenger1 = new User(3L, "Mohamed", "Ben Mohamed", "mohamed@gmail.com", BCrypt.hashpw("mohamedpassword", BCrypt.gensalt()), new HashSet<>(Arrays.asList(driverRole, passengerRole)), true);
+
+        List<User> savedUsers = userRepository.saveAll(List.of(admin1, driver1, passenger1));
+        return !savedUsers.isEmpty();
+    }
+
+    @Override
+    public Object changePassword(@Valid ChangePasswordRequest request, Principal connectedUser) {
+        User user = (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
+        if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {
+            return ErrorResponse.builder()
+                    .errors(List.of("Current password is wrong"))
+                    .http_code(HttpStatus.UNAUTHORIZED.value())
+                    .build();
+        }
+        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        userRepository.save(user);
+        return MessageResponse.builder()
+                .message("Password updated successfully")
+                .http_code(HttpStatus.OK.value())
+                .build();
+    }
+}
