@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="ISO-8859-1">
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+</head>
+<style>
+    .navbar {
+        background-color: #d9edf7;
+    }
+</style>
+
+<body>
+
+<!-- create navigation bar ( header) -->
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <h2>Library App</h2>
+        </div>
+    </div>
+</nav>
+
+<br><br><br><br><br><br><br>
+<!-- Create HTML registration form -->
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+
+
+
+            <h1>Registration</h1>
+
+            <form th:action="@{/registration}" method="post"
+                  th:object="${user}">
+                <div class="form-group">
+                    <label class="control-label" for="firstName">
+                        First Name </label>
+                    <input id="firstName" class="form-control"
+                           th:field="*{firstName}" required
+                           autofocus="autofocus" />
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="firstName">
+                        Last Name </label>
+                    <input id="lastName" class="form-control"
+                           th:field="*{lastName}" required
+                           autofocus="autofocus" />
+                </div>
+
+
+                <div class="form-group">
+                    <label class="control-label" for="email"> Email
+                    </label> <input id="email" class="form-control"
+                                    th:field="*{email}" required autofocus="autofocus"
+                />
+                </div>
+
+
+
+                <div class="form-group">
+                    <label class="control-label" for="password">
+                        Password </label> <input id="password"
+                                                 class="form-control" type="password"
+                                                 th:field="*{password}" required
+                                                 autofocus="autofocus" />
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="password">
+                        Role </label> <input id="role"
+                                                 class="form-control"
+                                                 th:field="*{roles}" required
+                                                 autofocus="autofocus" />
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary" th:href="@{/login}">
+                        Register</button>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

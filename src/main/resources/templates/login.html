@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>login </title>
+</head>
+<body>
+
+<form th:action="@{/login}" th:object="${user}" method="POST" >
+  <div><label> Email : <input type="email" name="Email" th:field="*{email}"/> </label></div>
+  <div><label> Password: <input type="password" name="password" th:field="*{password}"/> </label></div>
+
+  <button type="submit" class="btn btn-success" th:href="@{/regenerate-otp}"> Login </button>
+
+</form>
+</body>
+</html>

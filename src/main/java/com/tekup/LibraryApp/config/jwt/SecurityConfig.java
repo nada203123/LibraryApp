@@ -27,6 +27,11 @@ public class SecurityConfig {
     private static final String[] WHITE_LIST_URI = {
             "/users/seed",
             "/auth/**",
+            "/home",
+            "/registration",
+            "/login",
+            "/verifyAccount",
+            "/regenerate-otp"
     };
     private final JwtAuthFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;

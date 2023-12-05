@@ -46,8 +46,7 @@ public class AuthenticationServiceImp implements AuthenticationService {
     private final EmailSender emailSenderCmp;
     private final ResetPasswordRepository resetPasswordRepository;
     private final RoleRepository roleRepository;
-    @Value("http://localhost:4200")
-    private String frontUrl;
+
     public Object register(RegisterRequest request) {
     Set<Role> roles = request.getRoles().stream()
             .map(
@@ -231,7 +230,7 @@ public class AuthenticationServiceImp implements AuthenticationService {
                 .build();
 
         ResetPassword token = resetPasswordRepository.save(resetToken);
-        return frontUrl + "/reset-password/" + token.getToken();
+        return  token.getToken();
     }
 
     public Object resetPassword(String token, ResetPasswordRequest request) {

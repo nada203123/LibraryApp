@@ -5,34 +5,55 @@ import com.tekup.LibraryApp.service.auth.AuthenticationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
+@Controller
 @RequestMapping("/auth")
 @RequiredArgsConstructor
 public class AuthenticationController {
 
     private final AuthenticationService service;
+  /* @ModelAttribute("user")
+    public RegisterRequest request() {
+        return new RegisterRequest();
+    }
+
+    @GetMapping("/register")
+    public String showRegistrationForm() {
+        return "register";
+    }
 
     @PostMapping("/register")
-    public ResponseEntity<Object> register(@Valid @RequestBody RegisterRequest request) {
-        return ResponseEntity.ok(service.register(request));
+    public String register(@ModelAttribute("user") RegisterRequest request) {
+        service.register(request);
+        return "/login";
     }
+    @ModelAttribute("user")
+    public LoginRequest loginRequest() {
+        return new LoginRequest();
+    }
+    @GetMapping("/login")
+    public String showLoginForm() {
+        return "login";
+    }
+
 
     @PostMapping("/login")
-    public ResponseEntity<Object> login(@Valid @RequestBody LoginRequest request) {
-        return ResponseEntity.ok(service.login(request));
-    }
+    public String login(@ModelAttribute("user") LoginRequest loginRequest) {
+         service.login(loginRequest);
+        return "redirect:/regenerate-otp";
+    } */
 
-    @PutMapping("/verify-account")
+    /* @PutMapping("/verify-account")
     public ResponseEntity<Object> verifyAccount(@Valid @RequestBody VerifyAccountRequest request) {
         return ResponseEntity.ok(service.verifyAccount(request));
-    }
+    } */
 
-    @PostMapping("/regenerate-otp")
+   /* @PostMapping("/regenerate-otp")
     public ResponseEntity<Object> regenerateOtp(@Valid @RequestBody RegenerateOtpRequest request) {
         return ResponseEntity.ok(service.regenerateOtp(request));
-    }
+    } */
 
     @PostMapping("/forgot-password")
     public ResponseEntity<Object> forgotPassword(@Valid @RequestBody ForgotPasswordRequest request) {

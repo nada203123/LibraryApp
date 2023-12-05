@@ -31,8 +31,8 @@ public class UserServiceImp implements UserService {
 
     private void seedRoles() {
         roleRepository.save(new Role(1L, "ADMIN"));
-        roleRepository.save(new Role(2L, "DRIVER"));
-        roleRepository.save(new Role(3L, "PASSENGER"));
+        roleRepository.save(new Role(2L, "READER"));
+
     }
 
     public boolean seedInitialUsers() {
@@ -40,17 +40,15 @@ public class UserServiceImp implements UserService {
         Role adminRole = roleRepository.findByName("ADMIN").orElseThrow(
                 () -> new ResourceNotFoundException("Role not found for name: ADMIN")
                 );
-        Role driverRole = roleRepository.findByName("DRIVER").orElseThrow(
-                () -> new ResourceNotFoundException("Role not found for name: DRIVER")
+        Role readerRole = roleRepository.findByName("READER").orElseThrow(
+                () -> new ResourceNotFoundException("Role not found for name: READER")
                 );
-        Role passengerRole = roleRepository.findByName("PASSENGER").orElseThrow(
-                () -> new ResourceNotFoundException("Role not found for name: PASSENGER")
-                );
-        User admin1 = new User(1L, "Ali", "Ben Ali", "ali@gmail.com", BCrypt.hashpw("alipassword", BCrypt.gensalt()), Collections.singleton(adminRole), true);
-        User driver1 = new User(2L, "Saleh", "Ben Saleh", "saleh@gmail.com", BCrypt.hashpw("salehpassword", BCrypt.gensalt()), Collections.singleton(driverRole), true);
-        User passenger1 = new User(3L, "Mohamed", "Ben Mohamed", "mohamed@gmail.com", BCrypt.hashpw("mohamedpassword", BCrypt.gensalt()), new HashSet<>(Arrays.asList(driverRole, passengerRole)), true);
 
-        List<User> savedUsers = userRepository.saveAll(List.of(admin1, driver1, passenger1));
+        User admin1 = new User(1L, "Ali", "Ben Ali", "ali@gmail.com", BCrypt.hashpw("alipassword", BCrypt.gensalt()), Collections.singleton(adminRole), true);
+        User driver1 = new User(2L, "Saleh", "Ben Saleh", "saleh@gmail.com", BCrypt.hashpw("salehpassword", BCrypt.gensalt()), Collections.singleton(readerRole), true);
+
+
+        List<User> savedUsers = userRepository.saveAll(List.of(admin1, driver1));
         return !savedUsers.isEmpty();
     }
 
