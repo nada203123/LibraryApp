@@ -2,6 +2,7 @@ package com.tekup.LibraryApp.controller.auth;
 
 import com.tekup.LibraryApp.payload.request.LoginRequest;
 import com.tekup.LibraryApp.service.auth.AuthenticationService;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,8 +28,7 @@ public class LoginController {
 
 
     @PostMapping
-    public String login(@ModelAttribute("user") LoginRequest loginRequest) {
-        service.login(loginRequest);
-        return "redirect:/regenerate-otp";
+    public String login(@ModelAttribute("user") LoginRequest loginRequest, HttpServletResponse response) {
+        return service.login(loginRequest,response);
     }
 }

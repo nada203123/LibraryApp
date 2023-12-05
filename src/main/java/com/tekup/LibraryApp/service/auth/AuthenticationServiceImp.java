@@ -11,21 +11,20 @@ import com.tekup.LibraryApp.model.user.Role;
 import com.tekup.LibraryApp.model.user.User;
 import com.tekup.LibraryApp.payload.request.*;
 import com.tekup.LibraryApp.payload.response.ErrorResponse;
-import com.tekup.LibraryApp.payload.response.LoginResponse;
 import com.tekup.LibraryApp.payload.response.MessageResponse;
 import com.tekup.LibraryApp.repository.password.ResetPasswordRepository;
 import com.tekup.LibraryApp.repository.token.TokenRepository;
 import com.tekup.LibraryApp.repository.user.RoleRepository;
 import com.tekup.LibraryApp.repository.user.UserRepository;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -48,40 +47,40 @@ public class AuthenticationServiceImp implements AuthenticationService {
     private final RoleRepository roleRepository;
 
     public Object register(RegisterRequest request) {
-    Set<Role> roles = request.getRoles().stream()
-            .map(
-                    roleName -> roleRepository.findByName(roleName).orElseThrow(
-                            () -> new ResourceNotFoundException("Role not found for name: " + roleName)
-                    )
-            )
-            .collect(Collectors.toSet());
+        Set<Role> roles = request.getRoles().stream()
+                .map(
+                        roleName -> roleRepository.findByName(roleName).orElseThrow(
+                                () -> new ResourceNotFoundException("Role not found for name: " + roleName)
+                        )
+                )
+                .collect(Collectors.toSet());
 
         if (roles.isEmpty()) {
-        return ErrorResponse.builder()
-                .errors(List.of("Invalid roles provided"))
-                .http_code(HttpStatus.UNAUTHORIZED.value())
+            return ErrorResponse.builder()
+                    .errors(List.of("Invalid roles provided"))
+                    .http_code(HttpStatus.UNAUTHORIZED.value())
+                    .build();
+        }
+
+        String otpCode = otpCmp.generateOtp();
+
+        User user = User.builder()
+                .firstName(request.getFirstName())
+                .lastName(request.getLastName())
+                .email(request.getEmail())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .roles(roles)
+                .otp(otpCode)
+                .otpGeneratedTime(LocalDateTime.now())
                 .build();
-    }
-
-    String otpCode = otpCmp.generateOtp();
-
-    User user = User.builder()
-            .firstName(request.getFirstName())
-            .lastName(request.getLastName())
-            .email(request.getEmail())
-            .password(passwordEncoder.encode(request.getPassword()))
-            .roles(roles)
-            .otp(otpCode)
-            .otpGeneratedTime(LocalDateTime.now())
-            .build();
-    User savedUser = userRepository.save(user);
+        User savedUser = userRepository.save(user);
 
         emailSenderCmp.sendOtpVerification(savedUser.getEmail(), otpCode);
         return MessageResponse.builder()
                 .message("Registration done, check your email to verify your account with the OTP code")
                 .http_code(HttpStatus.OK.value())
-            .build();
-}
+                .build();
+    }
 
     private void saveUserToken(User user, String jwtToken) {
         Token token = Token.builder()
@@ -94,7 +93,7 @@ public class AuthenticationServiceImp implements AuthenticationService {
         tokenRepository.save(token);
     }
 
-    public Object login(LoginRequest request) {
+    public String login(LoginRequest request, HttpServletResponse response) {
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
@@ -110,24 +109,15 @@ public class AuthenticationServiceImp implements AuthenticationService {
 
                 revokeAllUserTokens(user);
                 saveUserToken(user, jwtToken);
-
-                return LoginResponse.builder()
-                        .token(jwtToken)
-                        .firstName(user.getFirstName())
-                        .lastName(user.getLastName())
-                        .message("Welcome to TEKUP-Library project")
-                        .http_code(HttpStatus.OK.value())
-                        .build();
+                Cookie cookie = new Cookie("token", jwtToken);
+                cookie.setMaxAge(Integer.MAX_VALUE);
+                response.addCookie(cookie);
+                System.out.println("token: " + jwtToken);
+                return "redirect:/home";
             }
-            return ErrorResponse.builder()
-                    .errors(List.of("Your account is not verified"))
-                    .http_code(HttpStatus.UNAUTHORIZED.value())
-                    .build();
+            return "redirect:/unverified";
         } catch (BadCredentialsException e) {
-            return ErrorResponse.builder()
-                    .errors(List.of("Invalid email or password. Please try again"))
-                    .http_code(HttpStatus.UNAUTHORIZED.value())
-                    .build();
+            return "redirect:/login";
         }
     }
 
@@ -209,7 +199,7 @@ public class AuthenticationServiceImp implements AuthenticationService {
     public MessageResponse forgotPassword(ForgotPasswordRequest request) {
         User user = userRepository.findByEmail(request.getEmail()).orElseThrow(
                 () -> new ResourceNotFoundException("User not found for email: " + request.getEmail())
-                );
+        );
         String url = generateResetToken(user);
         emailSenderCmp.sendResetPassword(request.getEmail(), url);
         return MessageResponse.builder()
@@ -230,13 +220,13 @@ public class AuthenticationServiceImp implements AuthenticationService {
                 .build();
 
         ResetPassword token = resetPasswordRepository.save(resetToken);
-        return  token.getToken();
+        return token.getToken();
     }
 
     public Object resetPassword(String token, ResetPasswordRequest request) {
         ResetPassword resetPassword = resetPasswordRepository.findByToken(token).orElseThrow(
                 () -> new ResourceNotFoundException("Token not found for token: " + token)
-                );
+        );
         if (isResetPasswordTokenValid(resetPassword.getExpirationDate())) {
             User user = resetPassword.getUser();
             user.setPassword(passwordEncoder.encode(request.getNewPassword()));

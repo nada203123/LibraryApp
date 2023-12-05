@@ -1,11 +1,12 @@
 package com.tekup.LibraryApp.service.auth;
 
 import com.tekup.LibraryApp.payload.request.*;
+import jakarta.servlet.http.HttpServletResponse;
 
 public interface AuthenticationService {
     Object register(RegisterRequest request);
 
-    Object login(LoginRequest request);
+    String login(LoginRequest request , HttpServletResponse response);
 
     Object verifyAccount(VerifyAccountRequest request);
 
