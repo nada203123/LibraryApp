@@ -1,4 +1,5 @@
 package com.tekup.LibraryApp.config.jwt;
+
 import com.tekup.LibraryApp.repository.token.TokenRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -17,7 +18,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -27,23 +27,29 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     private final TokenRepository tokenRepository;
 
 
-    String extractToken(HttpServletRequest request){
+    String extractToken(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
+
+        if (cookies != null) {
             return Arrays.stream(cookies)
                     .filter(c -> c.getName().equals("token"))
+                    .findFirst()
                     .map(Cookie::getValue)
-                    .collect(Collectors.joining());
+                    .orElse(null);
+        }
+        return null;
     }
 
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
-        final String jwt=extractToken(request);
+        final String jwt = extractToken(request);
         final String userEmail;
+
         if (request.getServletPath().equals("/auth/login")) {
             filterChain.doFilter(request, response);
             return;
         }
-        if (jwt.isBlank()) {
+        if (jwt==null || jwt.isBlank()) {
             filterChain.doFilter(request, response);
             return;
         }

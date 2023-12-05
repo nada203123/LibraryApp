@@ -112,7 +112,6 @@ public class AuthenticationServiceImp implements AuthenticationService {
                 Cookie cookie = new Cookie("token", jwtToken);
                 cookie.setMaxAge(Integer.MAX_VALUE);
                 response.addCookie(cookie);
-                System.out.println("token: " + jwtToken);
                 return "redirect:/home";
             }
             return "redirect:/unverified";
