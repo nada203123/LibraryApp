@@ -148,27 +148,15 @@ public class AuthenticationServiceImp implements AuthenticationService {
                 if (!user.isVerified()) {
                     user.setVerified(true);
                     userRepository.save(user);
-                    return MessageResponse.builder()
-                            .message("Your OTP has been successfully verified. You now have access to the platform")
-                            .http_code(HttpStatus.OK.value())
-                            .build();
-                } else {
-                    return ErrorResponse.builder()
-                            .errors(List.of("Your account is already verified. You have access to the platform"))
-                            .http_code(HttpStatus.UNAUTHORIZED.value())
-                            .build();
                 }
-            } else {
-                return ErrorResponse.builder()
-                        .errors(List.of("OTP Code expired. Please regenerate another OTP code"))
-                        .http_code(HttpStatus.UNAUTHORIZED.value())
-                        .build();
+                return "redirect :/home";
             }
-        } else {
-            return ErrorResponse.builder()
-                    .errors(List.of("Invalid OTP code"))
-                    .http_code(HttpStatus.UNAUTHORIZED.value())
-                    .build();
+             else {
+                return "redirect :/expired_otp";
+            }
+        }
+        else {
+            return "redirect :/invalid_otp";
         }
     }
 
