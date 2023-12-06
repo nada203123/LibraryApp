@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequiredArgsConstructor
 public class welcomeController {
     @GetMapping
-    private String home(Model model){
+    private String welcome (Model model){
         model.addAttribute("message","  WELCOME ");
         return "welcome";
     }

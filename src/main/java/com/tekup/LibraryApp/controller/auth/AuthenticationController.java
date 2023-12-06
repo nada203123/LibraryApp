@@ -48,12 +48,12 @@ public class AuthenticationController {
     /* @PutMapping("/verify-account")
     public ResponseEntity<Object> verifyAccount(@Valid @RequestBody VerifyAccountRequest request) {
         return ResponseEntity.ok(service.verifyAccount(request));
-    } */
+    }*/
 
-   /* @PostMapping("/regenerate-otp")
+    @PostMapping("/regenerate-otp")
     public ResponseEntity<Object> regenerateOtp(@Valid @RequestBody RegenerateOtpRequest request) {
         return ResponseEntity.ok(service.regenerateOtp(request));
-    } */
+    }
 
     @PostMapping("/forgot-password")
     public ResponseEntity<Object> forgotPassword(@Valid @RequestBody ForgotPasswordRequest request) {

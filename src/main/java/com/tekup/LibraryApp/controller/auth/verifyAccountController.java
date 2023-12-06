@@ -28,7 +28,7 @@ public class verifyAccountController {
 
     @PutMapping
     public String verifyAccount(@ModelAttribute("verify") VerifyAccountRequest verifyAccountRequestRequest) {
-        service.verifyAccount(verifyAccountRequestRequest);
-        return "redirect:/welcome";
+        return service.verifyAccount(verifyAccountRequestRequest);
     }
+
 }

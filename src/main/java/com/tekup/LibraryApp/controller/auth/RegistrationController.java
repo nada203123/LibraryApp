@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class RegistrationController {
     private final AuthenticationService service;
     @ModelAttribute("user")
-    public RegisterRequest request() { return new RegisterRequest();}
+    public RegisterRequest request() {
+        return new RegisterRequest();
+    }
 
     @GetMapping
     public String showRegistrationForm() {
@@ -24,7 +26,7 @@ public class RegistrationController {
 
     @PostMapping
     public String register(@ModelAttribute("user") RegisterRequest request) {
-        service.register(request);
-        return "redirect:/login";
+       return service.register(request);
+
     }
 }

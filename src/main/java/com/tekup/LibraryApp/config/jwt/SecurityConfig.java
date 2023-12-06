@@ -25,7 +25,12 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @RequiredArgsConstructor
 public class SecurityConfig {
     private static final String[] WHITE_LIST_URI = {
-            "/login"
+            "/login",
+            "/home",
+            "/registration",
+            "/auth",
+            "/verifyAccount",
+            "/Welcome"
     };
     private final JwtAuthFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;

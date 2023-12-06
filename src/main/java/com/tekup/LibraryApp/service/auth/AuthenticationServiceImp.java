@@ -46,7 +46,7 @@ public class AuthenticationServiceImp implements AuthenticationService {
     private final ResetPasswordRepository resetPasswordRepository;
     private final RoleRepository roleRepository;
 
-    public Object register(RegisterRequest request) {
+    public String register(RegisterRequest request) {
         Set<Role> roles = request.getRoles().stream()
                 .map(
                         roleName -> roleRepository.findByName(roleName).orElseThrow(
@@ -56,10 +56,7 @@ public class AuthenticationServiceImp implements AuthenticationService {
                 .collect(Collectors.toSet());
 
         if (roles.isEmpty()) {
-            return ErrorResponse.builder()
-                    .errors(List.of("Invalid roles provided"))
-                    .http_code(HttpStatus.UNAUTHORIZED.value())
-                    .build();
+            return "redirect:/registration";
         }
 
         String otpCode = otpCmp.generateOtp();
@@ -76,10 +73,7 @@ public class AuthenticationServiceImp implements AuthenticationService {
         User savedUser = userRepository.save(user);
 
         emailSenderCmp.sendOtpVerification(savedUser.getEmail(), otpCode);
-        return MessageResponse.builder()
-                .message("Registration done, check your email to verify your account with the OTP code")
-                .http_code(HttpStatus.OK.value())
-                .build();
+        return "redirect:/verifyAccount";
     }
 
     private void saveUserToken(User user, String jwtToken) {
@@ -112,10 +106,11 @@ public class AuthenticationServiceImp implements AuthenticationService {
                 Cookie cookie = new Cookie("token", jwtToken);
                 cookie.setMaxAge(Integer.MAX_VALUE);
                 response.addCookie(cookie);
-                return "redirect:/home";
+                return "redirect:/welcome";
             }
-            return "redirect:/unverified";
+            return "redirect:/login";
         } catch (BadCredentialsException e) {
+
             return "redirect:/login";
         }
     }
@@ -132,7 +127,7 @@ public class AuthenticationServiceImp implements AuthenticationService {
         tokenRepository.saveAll(validUserTokens);
     }
 
-    public Object verifyAccount(VerifyAccountRequest request) {
+    public String verifyAccount(VerifyAccountRequest request) {
         User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(
                         () -> new ResourceNotFoundException("User not found for email: " + request.getEmail())
@@ -140,7 +135,7 @@ public class AuthenticationServiceImp implements AuthenticationService {
         LocalDateTime otpGeneratedTime = user.getOtpGeneratedTime();
         LocalDateTime currentTime = LocalDateTime.now();
         long secondsDifference = Duration.between(otpGeneratedTime, currentTime).getSeconds();
-        boolean isNotExpired = secondsDifference < 60;
+        boolean isNotExpired = secondsDifference < 120;
 
         if (user.getOtp().equals(request.getOtp())) {
             if (isNotExpired) {
@@ -148,14 +143,14 @@ public class AuthenticationServiceImp implements AuthenticationService {
                     user.setVerified(true);
                     userRepository.save(user);
                 }
-                return "redirect :/home";
+                return "redirect :/login";
             }
              else {
-                return "redirect :/expired_otp";
+                return "redirect :/verifyAccount";
             }
         }
         else {
-            return "redirect :/invalid_otp";
+            return "redirect :/verifyAccount";
         }
     }
 
