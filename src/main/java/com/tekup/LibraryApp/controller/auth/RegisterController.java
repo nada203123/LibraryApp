@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/registration")
+@RequestMapping("/register")
 @RequiredArgsConstructor
-public class RegistrationController {
+public class RegisterController {
     private final AuthenticationService service;
     @ModelAttribute("user")
     public RegisterRequest request() {

@@ -1,22 +1,17 @@
 package com.tekup.LibraryApp.service.auth;
 
-import com.tekup.LibraryApp.config.jwt.JwtService;
 import com.tekup.LibraryApp.exception.ResourceNotFoundException;
 import com.tekup.LibraryApp.mail.EmailSender;
 import com.tekup.LibraryApp.mail.Otp;
 import com.tekup.LibraryApp.model.password.ResetPassword;
-import com.tekup.LibraryApp.model.token.Token;
-import com.tekup.LibraryApp.model.token.TokenType;
 import com.tekup.LibraryApp.model.user.Role;
 import com.tekup.LibraryApp.model.user.User;
 import com.tekup.LibraryApp.payload.request.*;
 import com.tekup.LibraryApp.payload.response.ErrorResponse;
 import com.tekup.LibraryApp.payload.response.MessageResponse;
 import com.tekup.LibraryApp.repository.password.ResetPasswordRepository;
-import com.tekup.LibraryApp.repository.token.TokenRepository;
 import com.tekup.LibraryApp.repository.user.RoleRepository;
 import com.tekup.LibraryApp.repository.user.UserRepository;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -38,9 +33,7 @@ import java.util.stream.Collectors;
 public class AuthenticationServiceImp implements AuthenticationService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
-    private final TokenRepository tokenRepository;
     private final Otp otpCmp;
     private final EmailSender emailSenderCmp;
     private final ResetPasswordRepository resetPasswordRepository;
@@ -56,7 +49,7 @@ public class AuthenticationServiceImp implements AuthenticationService {
                 .collect(Collectors.toSet());
 
         if (roles.isEmpty()) {
-            return "redirect:/registration";
+            return "redirect:/register";
         }
 
         String otpCode = otpCmp.generateOtp();
@@ -73,18 +66,7 @@ public class AuthenticationServiceImp implements AuthenticationService {
         User savedUser = userRepository.save(user);
 
         emailSenderCmp.sendOtpVerification(savedUser.getEmail(), otpCode);
-        return "redirect:/verifyAccount";
-    }
-
-    private void saveUserToken(User user, String jwtToken) {
-        Token token = Token.builder()
-                .user(user)
-                .token(jwtToken)
-                .tokenType(TokenType.BEARER)
-                .revoked(false)
-                .expired(false)
-                .build();
-        tokenRepository.save(token);
+        return "redirect:/verify-account";
     }
 
     public String login(LoginRequest request, HttpServletResponse response) {
@@ -99,13 +81,6 @@ public class AuthenticationServiceImp implements AuthenticationService {
                     () -> new ResourceNotFoundException("User not found for email: " + request.getEmail())
             );
             if (user.isVerified()) {
-                String jwtToken = jwtService.generateToken(user);
-
-                revokeAllUserTokens(user);
-                saveUserToken(user, jwtToken);
-                Cookie cookie = new Cookie("token", jwtToken);
-                cookie.setMaxAge(Integer.MAX_VALUE);
-                response.addCookie(cookie);
                 return "redirect:/welcome";
             }
             return "redirect:/login";
@@ -115,17 +90,6 @@ public class AuthenticationServiceImp implements AuthenticationService {
         }
     }
 
-    private void revokeAllUserTokens(User user) {
-        var validUserTokens = tokenRepository.findAllValidTokensByUser(user.getId());
-        if (validUserTokens.isEmpty()) {
-            return;
-        }
-        validUserTokens.forEach(t -> {
-            t.setRevoked(true);
-            t.setExpired(true);
-        });
-        tokenRepository.saveAll(validUserTokens);
-    }
 
     public String verifyAccount(VerifyAccountRequest request) {
         User user = userRepository.findByEmail(request.getEmail())
@@ -143,14 +107,14 @@ public class AuthenticationServiceImp implements AuthenticationService {
                     user.setVerified(true);
                     userRepository.save(user);
                 }
-                return "redirect :/login";
+                return "redirect:/login";
             }
              else {
-                return "redirect :/verifyAccount";
+                return "redirect:/verify-account";
             }
         }
         else {
-            return "redirect :/verifyAccount";
+            return "redirect:/verify-account";
         }
     }
 
@@ -166,15 +130,9 @@ public class AuthenticationServiceImp implements AuthenticationService {
 
             emailSenderCmp.sendOtpVerification(request.getEmail(), otpCode);
 
-            return MessageResponse.builder()
-                    .message("A new OTP code has been generated and sent to your email")
-                    .http_code(HttpStatus.OK.value())
-                    .build();
+            return "login";
         } else {
-            return ErrorResponse.builder()
-                    .errors(List.of("Your account is already verified. You have access to the platform"))
-                    .http_code(HttpStatus.UNAUTHORIZED.value())
-                    .build();
+            return "home";
         }
     }
 

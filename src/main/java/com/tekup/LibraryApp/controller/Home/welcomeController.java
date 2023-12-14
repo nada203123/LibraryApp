@@ -1,4 +1,4 @@
-package com.tekup.LibraryApp.controller.auth;
+package com.tekup.LibraryApp.controller.Home;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;

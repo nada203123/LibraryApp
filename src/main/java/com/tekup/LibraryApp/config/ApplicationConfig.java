@@ -1,4 +1,4 @@
-package com.tekup.LibraryApp.config.jwt;
+package com.tekup.LibraryApp.config;
 
 import com.tekup.LibraryApp.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,12 +20,7 @@ public class ApplicationConfig {
     private final UserRepository userRepository;
     @Bean
     public UserDetailsService userDetailsService() {
-        return new UserDetailsService() {
-            @Override
-            public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-                return userRepository.findByEmailWithRoles(username).orElseThrow(() -> new UsernameNotFoundException("User Not Found"));
-            }
-        };
+        return username -> userRepository.findByEmailWithRoles(username).orElseThrow(() -> new UsernameNotFoundException("User Not Found"));
     }
 
     @Bean

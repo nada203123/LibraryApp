@@ -1,7 +1,6 @@
 package com.tekup.LibraryApp.model.user;
 
 import com.tekup.LibraryApp.model.password.ResetPassword;
-import com.tekup.LibraryApp.model.token.Token;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -53,8 +52,6 @@ public class User implements UserDetails {
     )
     private Set<Role> roles;
 
-    @OneToMany(mappedBy = "user")
-    private List<Token> tokens;
 
     @OneToMany(mappedBy = "user")
     private List<ResetPassword> resetPasswords;

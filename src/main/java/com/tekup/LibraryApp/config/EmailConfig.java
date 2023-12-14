@@ -1,4 +1,4 @@
-package com.tekup.LibraryApp.config.jwt;
+package com.tekup.LibraryApp.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

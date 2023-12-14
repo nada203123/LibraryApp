@@ -7,7 +7,7 @@
 </head>
 <body>
 
-<form th:action="@{/verifyAccount}" th:object="${verify}" method="POST" >
+<form th:action="@{/verify-account}" th:object="${verify}" method="post" >
     <div><label> Email : <input type="email" name="Email" th:field="*{email}"/> </label></div>
     <div><label> OTP: <input type="password" name="password" th:field="*{otp}"/> </label></div>
 
