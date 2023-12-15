@@ -12,7 +12,7 @@ public interface AuthenticationService {
 
     Object regenerateOtp(RegenerateOtpRequest request);
 
-    Object forgotPassword(ForgotPasswordRequest request);
+    String forgotPassword(ForgotPasswordRequest request);
 
-    Object resetPassword(String token, ResetPasswordRequest request);
+    String resetPassword(String token, ResetPasswordRequest request);
 }

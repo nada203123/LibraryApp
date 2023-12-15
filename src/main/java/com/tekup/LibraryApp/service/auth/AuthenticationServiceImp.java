@@ -7,14 +7,11 @@ import com.tekup.LibraryApp.model.password.ResetPassword;
 import com.tekup.LibraryApp.model.user.Role;
 import com.tekup.LibraryApp.model.user.User;
 import com.tekup.LibraryApp.payload.request.*;
-import com.tekup.LibraryApp.payload.response.ErrorResponse;
-import com.tekup.LibraryApp.payload.response.MessageResponse;
 import com.tekup.LibraryApp.repository.password.ResetPasswordRepository;
 import com.tekup.LibraryApp.repository.user.RoleRepository;
 import com.tekup.LibraryApp.repository.user.UserRepository;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -23,7 +20,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -136,16 +132,13 @@ public class AuthenticationServiceImp implements AuthenticationService {
         }
     }
 
-    public MessageResponse forgotPassword(ForgotPasswordRequest request) {
+    public String forgotPassword(ForgotPasswordRequest request) {
         User user = userRepository.findByEmail(request.getEmail()).orElseThrow(
                 () -> new ResourceNotFoundException("User not found for email: " + request.getEmail())
         );
         String url = generateResetToken(user);
         emailSenderCmp.sendResetPassword(request.getEmail(), url);
-        return MessageResponse.builder()
-                .message("Password reset instructions have been sent to your email")
-                .http_code(HttpStatus.OK.value())
-                .build();
+        return "check-email";
     }
 
     //Token reset password is set to be valid for 30mns
@@ -163,7 +156,7 @@ public class AuthenticationServiceImp implements AuthenticationService {
         return token.getToken();
     }
 
-    public Object resetPassword(String token, ResetPasswordRequest request) {
+    public String resetPassword(String token, ResetPasswordRequest request) {
         ResetPassword resetPassword = resetPasswordRepository.findByToken(token).orElseThrow(
                 () -> new ResourceNotFoundException("Token not found for token: " + token)
         );
@@ -171,15 +164,9 @@ public class AuthenticationServiceImp implements AuthenticationService {
             User user = resetPassword.getUser();
             user.setPassword(passwordEncoder.encode(request.getNewPassword()));
             userRepository.save(user);
-            return MessageResponse.builder()
-                    .message("Password has been changed")
-                    .http_code(HttpStatus.OK.value())
-                    .build();
+            return "login";
         } else {
-            return ErrorResponse.builder()
-                    .errors(List.of("Something went wrong"))
-                    .http_code(HttpStatus.UNAUTHORIZED.value())
-                    .build();
+            return "error";
         }
     }
 

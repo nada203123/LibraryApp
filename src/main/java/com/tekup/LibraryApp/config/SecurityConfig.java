@@ -9,7 +9,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -19,9 +18,10 @@ public class SecurityConfig {
             "/register",
             "/users/**",
             "/verify-account",
+            "/forgot-password",
+            "/reset-password/**"
     };
     private final AuthenticationProvider authenticationProvider;
-    private final AuthenticationSuccessHandler CustomAuthenticationSuccessHandler;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -37,7 +37,7 @@ public class SecurityConfig {
                 .formLogin(login -> login
                                 .loginPage("/login")
                                 .permitAll()
-                        //.successHandler(CustomAuthenticationSuccessHandler)
+                        //.successHandler(CustomAuthenticationSuccessHandler) role based redirect
                 )
                 .authenticationProvider(authenticationProvider)
                 .build();
