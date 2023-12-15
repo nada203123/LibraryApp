@@ -19,7 +19,8 @@ public class SecurityConfig {
             "/users/**",
             "/verify-account",
             "/forgot-password",
-            "/reset-password/**"
+            "/reset-password/**",
+            "/index",
     };
     private final AuthenticationProvider authenticationProvider;
 
@@ -33,6 +34,7 @@ public class SecurityConfig {
                         .permitAll()
                         .anyRequest()
                         .authenticated()
+
                 )
                 .formLogin(login -> login
                                 .loginPage("/login")

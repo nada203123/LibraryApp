@@ -1,5 +1,7 @@
 package com.tekup.LibraryApp.model.user;
 
+import com.tekup.LibraryApp.model.library.Card;
+import com.tekup.LibraryApp.model.library.Reservation;
 import com.tekup.LibraryApp.model.password.ResetPassword;
 import jakarta.persistence.*;
 import lombok.*;
@@ -8,7 +10,9 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Entity
@@ -22,6 +26,13 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @OneToMany(mappedBy = "user")
+    private Set<Reservation> reservations;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "card_id", referencedColumnName = "id")
+    Card card;
 
     @Column(name = "first_name", nullable = false)
     private String firstName;

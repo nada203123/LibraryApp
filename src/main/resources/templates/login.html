@@ -1,7 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"
-      xmlns:th="http://www.thymeleaf.org"
->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <title>Registration and Login System</title>
@@ -9,33 +7,72 @@
         rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
         crossorigin="anonymous">
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+
+    .navbar {
+      background-color: #343a40;
+    }
+
+    .navbar-brand {
+      color: #ffffff;
+    }
+
+    .navbar-toggler-icon {
+      background-color: #ffffff;
+    }
+
+    .card {
+      border: 1px solid #dcdcdc;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-header {
+      background-color: #343a40;
+      color: #ffffff;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .btn-primary {
+      background-color: #007bff;
+      border-color: #007bff;
+    }
+
+    .btn-primary:hover {
+      background-color: #0056b3;
+      border-color: #0056b3;
+    }
+
+    .alert {
+      margin-bottom: 1.5rem;
+    }
+    .container{
+      position: absolute;
+      top: 45%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 10px;
+
+    }
+  </style>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <div class="container-fluid">
-    <a class="navbar-brand" th:href="@{/index}">Registration and Login System</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" th:href="@{/register}">Register</a>
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav>
-<br /><br />
+
 <div class="container">
   <div class="row">
     <div class="col-md-6 offset-md-3">
 
-      <div th:if="${param.error}">
-        <div class="alert alert-danger">Invalid Email or Password</div>
+      <div th:if="${param.error}" class="alert alert-danger">
+        Invalid Email or Password
       </div>
-      <div th:if="${param.logout}">
-        <div class="alert alert-success"> You have been logged out.</div>
+      <div th:if="${param.logout}" class="alert alert-success">
+        You have been logged out.
       </div>
 
       <div class="card">
@@ -43,38 +80,22 @@
           <h2 class="text-center">Login Form</h2>
         </div>
         <div class="card-body">
-          <form
-                  method="post"
-                  role="form"
-                  th:action="@{/login}"
-                  class="form-horizontal"
-          >
+          <form method="post" role="form" th:action="@{/login}" class="form-horizontal">
             <div class="form-group mb-3">
-              <label class="control-label"> Email</label>
-              <input
-                      type="text"
-                      id="username"
-                      name="username"
-                      class="form-control"
-                      placeholder="Enter email address"
-              />
+              <label class="control-label">Email</label>
+              <input type="text" id="username" name="username" class="form-control"
+                     placeholder="Enter email address"/>
             </div>
 
             <div class="form-group mb-3">
-              <label class="control-label"> Password</label>
-              <input
-                      type="password"
-                      id="password"
-                      name="password"
-                      class="form-control"
-                      placeholder="Enter password"
-              />
+              <label class="control-label">Password</label>
+              <input type="password" id="password" name="password" class="form-control"
+                     placeholder="Enter password"/>
             </div>
             <div class="form-group mb-3">
-              <button type="submit" class="btn btn-primary" >Submit</button>
-              <span> Not registered ?
-                                <a th:href="@{/register}">Register/Signup here</a>
-                            </span>
+              <button type="submit" class="btn btn-primary">Submit</button>
+              <a th:href="@{/register}" class="mx-2">Register</a>
+              <a th:href="@{/forgot-password}">Forgot password</a>
             </div>
           </form>
         </div>
@@ -82,5 +103,13 @@
     </div>
   </div>
 </div>
+
+<!-- Include Bootstrap JS and Popper.js -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
+        integrity="sha384-L4GTU6+Kb5BSG7RJZ9aPOeSv9zC7T/iUIdB2lGG+AvOZIljgRPF3b1oPbu4r+1Hy"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+        integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofxFYxYqFcCrrWAQq3b1J7G6WGfRTt8DEB"
+        crossorigin="anonymous"></script>
 </body>
 </html>
