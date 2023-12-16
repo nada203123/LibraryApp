@@ -8,75 +8,111 @@
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
           crossorigin="anonymous">
 
-    <!-- Add Custom CSS -->
     <style>
         body {
-            padding: 20px;
+            padding-top: 20px;
         }
 
-        table {
-            width: 100%;
+        .container {
             margin-top: 20px;
         }
 
-        th, td {
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        .btn-add-book {
+            margin-bottom: 20px;
+        }
+
+        .table th, .table td {
             text-align: center;
-            padding: 10px;
-        }
-
-        thead {
-            background-color: #007bff;
-            color: #ffffff;
-        }
-
-        tbody tr:nth-child(even) {
-            background-color: #f2f2f2;
         }
 
         .available {
             color: green;
-            font-weight: bold;
         }
 
         .unavailable {
             color: red;
-            font-weight: bold;
+        }
+
+        .pagination {
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        /* Custom Styles */
+        .table-responsive-md {
+            margin-bottom: 20px;
+        }
+
+        .pagination {
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2 class="mt-4">Books List</h2>
+    <h1>Employees List</h1>
 
-    <table class="table table-bordered mt-4">
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Title</th>
-            <th>Publication Date</th>
-            <th>Available Copies</th>
-            <th>Unavailable Copies</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="book : ${books}">
-            <td th:text="${book.id}"></td>
-            <td th:text="${book.title}"></td>
-            <td th:text="${book.publicationDate}"></td>
-            <td th:text="${book.countAvailableCopies()}" class="available"></td>
-            <td th:text="${book.countUnavailableCopies()}" class="unavailable"></td>
-        </tr>
-        </tbody>
-    </table>
+    <a th:href="@{/admin/add_book}" class="btn btn-primary btn-sm btn-add-book">Add Book</a>
+
+    <div class="table-responsive-md">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Book Title</th>
+                <th>Publication Date</th>
+                <th>Available Copies</th>
+                <th>Unavailable Copies</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="book : ${books}">
+                <td th:text="${book.id}"></td>
+                <td th:text="${book.title}"></td>
+                <td th:text="${book.publicationDate}"></td>
+                <td th:text="${book.countAvailableCopies()}" class="available"></td>
+                <td th:text="${book.countUnavailableCopies()}" class="unavailable"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div th:if="${totalPages > 1}" class="pagination">
+        <ul class="pagination justify-content-center">
+            <li class="page-item">
+                <span class="page-link">Total Rows: [[${totalItems}]]</span>
+            </li>
+            <li class="page-item" th:each="i: ${#numbers.sequence(1, totalPages)}">
+                <a th:if="${currentPage != i}"
+                   th:href="@{'/books?page=' + ${i} }"
+                   class="page-link">[[${i}]]</a>
+                <span th:unless="${currentPage != i}" class="page-link">[[${i}]]</span>
+            </li>
+            <li class="page-item" th:if="${currentPage < totalPages}">
+                <a th:href="@{'/books?page=' + ${currentPage + 1}}"
+                   class="page-link">Next</a>
+            </li>
+            <li class="page-item" th:if="${currentPage < totalPages}">
+                <a th:href="@{'/books?page=' + ${totalPages} }"
+                   class="page-link">Last</a>
+            </li>
+        </ul>
+    </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
 
-<!-- Add Bootstrap JS and Popper.js -->
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
-        integrity="sha384-L4GTU6+Kb5BSG7RJZ9aPOeSv9zC7T/iUIdB2lGG+AvOZIljgRPF3b1oPbu4r+1Hy"
-        crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
-        integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofxFYxYqFcCrrWAQq3b1J7G6WGfRTt8DEB"
-        crossorigin="anonymous"></script>
 </body>
 </html>

@@ -8,9 +8,11 @@ import com.tekup.LibraryApp.payload.request.BookAddRequest;
 import com.tekup.LibraryApp.repository.library.BookRepo;
 import com.tekup.LibraryApp.repository.library.CategoryRepo;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -48,12 +50,12 @@ public class BookServiceImpli implements BookService {
 
         copies.forEach(bookCopy -> bookCopy.setBook(newBook));
         bookRepo.save(newBook);
-        System.out.println(newBook);
         return "redirect:/admin/add_book";
     }
 
     @Override
-    public List<Book> getAllBooks() {
-        return bookRepo.findAll();
+    public Page<Book> findPaginated(int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo , pageSize);
+        return bookRepo.findAll(pageable);
     }
 }
