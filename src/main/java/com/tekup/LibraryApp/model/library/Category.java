@@ -23,4 +23,7 @@ public class Category {
 
     @ManyToMany(mappedBy = "categories")
     Set<Book> books;
+    public Category(String name){
+        this.name=name;
+    }
 }

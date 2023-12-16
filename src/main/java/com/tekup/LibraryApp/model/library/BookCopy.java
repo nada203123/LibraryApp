@@ -23,4 +23,7 @@ public class BookCopy {
     @Column(name = "status", nullable = false)
     private StatusCopy  statusCopy;
 
+    public BookCopy(StatusCopy statusCopy) {
+        this.statusCopy = statusCopy;
+    }
 }

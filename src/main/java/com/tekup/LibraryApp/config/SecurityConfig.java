@@ -32,6 +32,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(WHITE_LIST_URI)
                         .permitAll()
+                        .requestMatchers("/admin/**").hasAuthority("ADMIN")
+
                         .anyRequest()
                         .authenticated()
 
