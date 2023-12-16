@@ -44,6 +44,8 @@ public class SecurityConfig {
                         //.successHandler(CustomAuthenticationSuccessHandler) role based redirect
                 )
                 .authenticationProvider(authenticationProvider)
+                .exceptionHandling(exception->
+                        exception.accessDeniedPage("/error"))
                 .build();
     }
 }
