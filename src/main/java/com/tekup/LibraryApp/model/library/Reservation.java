@@ -30,5 +30,8 @@ public class Reservation {
     @Column(name = "end_date")
     private LocalDateTime endDate;
 
+    @ManyToOne
+    @JoinColumn(name = "book_copy_id", nullable = false)
+    private BookCopy bookCopy;
 
 }

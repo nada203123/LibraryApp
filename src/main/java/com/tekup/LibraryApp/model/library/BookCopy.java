@@ -3,6 +3,8 @@ package com.tekup.LibraryApp.model.library;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Set;
+
 @Entity
 @Builder
 @Getter
@@ -22,6 +24,10 @@ public class BookCopy {
 
     @Column(name = "status", nullable = false)
     private StatusCopy  statusCopy;
+
+    @OneToMany(mappedBy = "bookCopy")
+    private Set<Reservation> reservations;
+
 
     public BookCopy(StatusCopy statusCopy) {
         this.statusCopy = statusCopy;
