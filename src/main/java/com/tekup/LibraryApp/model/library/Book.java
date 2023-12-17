@@ -40,6 +40,9 @@ public class Book {
     @OneToMany(mappedBy = "book",cascade = CascadeType.ALL)
     private Set<BookCopy> bookCopies;
 
+    private int numberPages;
+
+    private String Language;
     public long countAvailableCopies() {
         return bookCopies.size();
     }
