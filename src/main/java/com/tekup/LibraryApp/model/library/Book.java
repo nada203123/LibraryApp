@@ -35,16 +35,17 @@ public class Book {
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )
     private Set<Category> categories;
+    private String imageUrl;
 
     @OneToMany(mappedBy = "book",cascade = CascadeType.ALL)
     private Set<BookCopy> bookCopies;
 
     public long countAvailableCopies() {
-        return bookCopies.stream().filter(copy -> StatusCopy.AVAILABLE.equals(copy.getStatusCopy())).count();
+        return bookCopies.size();
     }
 
     public long countUnavailableCopies() {
-        return bookCopies.stream().filter(copy -> StatusCopy.UNAVAILABLE.equals(copy.getStatusCopy())).count();
+        return bookCopies.size();
     }
 
 }

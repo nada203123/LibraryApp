@@ -68,6 +68,7 @@
                 <th>Publication Date</th>
                 <th>Available Copies</th>
                 <th>Unavailable Copies</th>
+                <th>Action</th>
             </tr>
             </thead>
             <tbody>
@@ -77,6 +78,12 @@
                 <td th:text="${book.publicationDate}"></td>
                 <td th:text="${book.countAvailableCopies()}" class="available"></td>
                 <td th:text="${book.countUnavailableCopies()}" class="unavailable"></td>
+                <td>
+                    <a th:if="${book.countAvailableCopies() > 0}"
+                       th:href="@{'/books/reserve?id=' + ${book.id} + '&page=' + ${currentPage}}"
+                       class="btn btn-primary btn-sm btn-add-book">Reserve</a>
+                    <span th:if="${book.countAvailableCopies() <= 0}" class="text-muted">Not Available</span>
+                </td>
             </tr>
             </tbody>
         </table>

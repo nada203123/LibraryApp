@@ -9,7 +9,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -19,7 +22,7 @@ public class BookController {
     private final BookService bookService;
     private final CategoryRepo categoryRepo;
 
-        @GetMapping("/admin/add_book")
+    @GetMapping("/admin/add_book")
     public String showAddBookForm(Model model) {
         List<Category> allCategories = categoryRepo.findAll();
         model.addAttribute("allCategories", allCategories);
@@ -30,10 +33,11 @@ public class BookController {
     public String addBook(@ModelAttribute("book") BookAddRequest bookAddRequest) {
         return bookService.addBook(bookAddRequest);
     }
+
     @GetMapping("/books")
-    public String getPaginatedBooks(@RequestParam(value = "page", defaultValue = "1") int pageNo,Model model) {
-        final int PAGE_SIZE=5;
-        Page<Book> page = bookService.findPaginated(pageNo-1, PAGE_SIZE);
+    public String getPaginatedBooks(@RequestParam(value = "page", defaultValue = "1") int pageNo, Model model) {
+        final int PAGE_SIZE = 5;
+        Page<Book> page = bookService.findPaginated(pageNo - 1, PAGE_SIZE);
         var books = page.getContent();
         model.addAttribute("currentPage", pageNo);
         model.addAttribute("totalPages", page.getTotalPages());
@@ -41,4 +45,6 @@ public class BookController {
         model.addAttribute("books", books);
         return "admin/books-list";
     }
+
+
 }
