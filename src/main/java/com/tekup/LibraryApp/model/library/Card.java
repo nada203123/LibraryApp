@@ -19,10 +19,6 @@ public class Card {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name",nullable = false)
-    private String name;
-
-
     @OneToOne(mappedBy = "card")
     private User user;
 

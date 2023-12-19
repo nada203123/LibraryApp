@@ -52,7 +52,8 @@
         .alert {
             margin-bottom: 1.5rem;
         }
-        .container{
+
+        .container {
             position: absolute;
             top: 45%;
             left: 50%;
@@ -60,7 +61,10 @@
             padding: 10px;
 
         }
-    </style></head>
+    </style>
+
+
+</head>
 <body>
 
 <div class="container">
@@ -68,34 +72,41 @@
         <div class="col-md-6 offset-md-3">
             <div class="card">
                 <div class="card-header">
-                    <h2 class="text-center">Add Book Form</h2>
+                    <h2 class="text-center">Edit Book Form</h2>
                 </div>
                 <div class="card-body">
-                    <form method="post" role="form" th:action="@{/admin/add_book}" class="form-horizontal">
+                    <form method="post" role="form" th:action="@{/admin/book/edit/__${book.id}__}" class="form-horizontal">
+
+                        <!-- Title -->
                         <div class="form-group mb-3">
                             <label class="control-label">Title</label>
-                            <input type="text" id="title" name="title" class="form-control" placeholder="Enter the Book title"/>
+                            <input type="text" id="title" name="title" class="form-control"
+                                   placeholder="Enter the Book title" th:value="${book.title}"/>
                         </div>
 
-
-
+                        <!-- Publication Date -->
                         <div class="form-group mb-3">
                             <label class="control-label">Publication Date</label>
-                            <input type="date" id="publicationDate" name="publicationDate" class="form-control" placeholder="Enter the publication date"/>
-                        </div>
-                        <div class="form-group mb-3">
-                            <label class="control-label">Copies Number</label>
-                            <input type="number" id="numberOfCopies" name="numberOfCopies" class="form-control" placeholder="Enter the Number of copies"/>
-                        </div>
-                        <div class="form-group mb-3">
-                            <label class="control-label">Category</label>
-                            <div th:each="category : ${allCategories}">
-                                <input type="checkbox" th:id="${'category-' + category.id}" th:name="categories" th:value="${category.name}" class="form-check-input"/>
-                                <label th:for="${'category-' + category.id}" th:text="${category.name}" class="form-check-label"></label>
-                                <br/>
-                            </div>
+                            <input type="date" id="publicationDate" name="publicationDate" class="form-control"
+                                   placeholder="Enter the publication date"/>
+                                   <!--th:value="${#dates.format(book.getPublicationDate(), 'dd/MM/yyyy')}"-->
 
                         </div>
+
+                        <!-- Number of Copies -->
+                        <div class="form-group mb-3">
+                            <label class="control-label">Copies Number</label>
+                            <input type="number" id="numberOfCopies" name="numberOfCopies" class="form-control"
+                                   placeholder="Enter the Number of copies" th:value="${book.bookCopies.size()}"/>
+                        </div>
+
+                        <!-- Language -->
+                        <div class="form-group mb-3">
+                            <label class="control-label">Language</label>
+                            <input type="text" id="language" name="language" class="form-control"
+                                   placeholder="Enter the Language of the book" th:value="${book.language}"/>
+                        </div>
+
                         <div class="form-group mb-3">
                             <button type="submit" class="btn btn-primary">Submit</button>
                         </div>
@@ -106,7 +117,6 @@
     </div>
 </div>
 
-<!-- Include Bootstrap JS and Popper.js -->
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
         integrity="sha384-L4GTU6+Kb5BSG7RJZ9aPOeSv9zC7T/iUIdB2lGG+AvOZIljgRPF3b1oPbu4r+1Hy"
         crossorigin="anonymous"></script>

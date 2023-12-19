@@ -26,7 +26,9 @@ public class ReservationServiceImpli implements ReservationService {
 
 
 
-
+    //"The code below is not applicable to our case"
+    // if the there is book copy available you add in emprunt table
+    // else you add in reservation table .
     @Override
     public String reserve(ReservationRequest reservationRequest, Principal user) {
 
@@ -52,7 +54,7 @@ public class ReservationServiceImpli implements ReservationService {
         available.getReservations().add(reservation);
 
         reservationRepo.save(reservation);
-        return "";
+        return "redirect:/reserve";
     }
 
     private boolean isReservationPeriodAvailable(BookCopy bookCopy, LocalDateTime requestedStartDate, LocalDateTime requestedEndDate) {

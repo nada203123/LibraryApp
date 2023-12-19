@@ -57,7 +57,7 @@
 <div class="container">
     <h1>Employees List</h1>
 
-    <a th:href="@{/admin/add_book}" class="btn btn-primary btn-sm btn-add-book">Add Book</a>
+    <a th:href="@{/admin/book/add}" class="btn btn-primary btn-sm btn-add-book">Add Book</a>
 
     <div class="table-responsive-md">
         <table class="table table-striped">
@@ -79,10 +79,19 @@
                 <td th:text="${book.countAvailableCopies()}" class="available"></td>
                 <td th:text="${book.countUnavailableCopies()}" class="unavailable"></td>
                 <td>
-                    <a th:if="${book.countAvailableCopies() > 0}"
-                       th:href="@{'/books/reserve?id=' + ${book.id} + '&page=' + ${currentPage}}"
-                       class="btn btn-primary btn-sm btn-add-book">Reserve</a>
-                    <span th:if="${book.countAvailableCopies() <= 0}" class="text-muted">Not Available</span>
+                    <a
+                       th:href="@{'/admin/book/edit/'+${book.id}}"
+                       class="btn btn-primary btn-sm btn-add-book">edit</a>
+                </td>
+                <td>
+                    <a th:if="${!book.archived}"
+                       th:href="@{'/admin/book/archive?id=' + ${book.id} + '&page=' + ${currentPage}}"
+                       class="btn btn-primary btn-sm btn-add-book">Archive</a>
+                </td>
+                <td>
+                    <a th:if="${book.archived}"
+                       th:href="@{'/admin/book/reveal?id=' + ${book.id} + '&page=' + ${currentPage}}"
+                       class="btn btn-primary btn-sm btn-add-book">Reveal</a>
                 </td>
             </tr>
             </tbody>
@@ -96,16 +105,16 @@
             </li>
             <li class="page-item" th:each="i: ${#numbers.sequence(1, totalPages)}">
                 <a th:if="${currentPage != i}"
-                   th:href="@{'/books?page=' + ${i} }"
+                   th:href="@{'admin/book/list?page=' + ${i} }"
                    class="page-link">[[${i}]]</a>
                 <span th:unless="${currentPage != i}" class="page-link">[[${i}]]</span>
             </li>
             <li class="page-item" th:if="${currentPage < totalPages}">
-                <a th:href="@{'/books?page=' + ${currentPage + 1}}"
+                <a th:href="@{'/admin/book/list?page=' + ${currentPage + 1}}"
                    class="page-link">Next</a>
             </li>
             <li class="page-item" th:if="${currentPage < totalPages}">
-                <a th:href="@{'/books?page=' + ${totalPages} }"
+                <a th:href="@{'admin/book/list?page=' + ${totalPages} }"
                    class="page-link">Last</a>
             </li>
         </ul>

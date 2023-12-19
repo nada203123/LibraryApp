@@ -3,6 +3,8 @@ package com.tekup.LibraryApp.service.auth;
 import com.tekup.LibraryApp.exception.ResourceNotFoundException;
 import com.tekup.LibraryApp.mail.EmailSender;
 import com.tekup.LibraryApp.mail.Otp;
+import com.tekup.LibraryApp.model.library.Card;
+import com.tekup.LibraryApp.model.library.StatusCard;
 import com.tekup.LibraryApp.model.password.ResetPassword;
 import com.tekup.LibraryApp.model.user.Role;
 import com.tekup.LibraryApp.model.user.User;
@@ -18,7 +20,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.UUID;
@@ -89,30 +90,38 @@ public class AuthenticationServiceImp implements AuthenticationService {
 
     public String verifyAccount(VerifyAccountRequest request) {
         User user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(
-                        () -> new ResourceNotFoundException("User not found for email: " + request.getEmail())
-                );
-        LocalDateTime otpGeneratedTime = user.getOtpGeneratedTime();
-        LocalDateTime currentTime = LocalDateTime.now();
-        long secondsDifference = Duration.between(otpGeneratedTime, currentTime).getSeconds();
-        boolean isNotExpired = secondsDifference < 120;
+                .orElseThrow(() -> new ResourceNotFoundException("User not found for email: " + request.getEmail()));
 
-        if (user.getOtp().equals(request.getOtp())) {
-            if (isNotExpired) {
-                if (!user.isVerified()) {
-                    user.setVerified(true);
-                    userRepository.save(user);
-                }
-                return "redirect:/login";
-            }
-             else {
-                return "redirect:/verify-account";
-            }
-        }
-        else {
+        if (!user.getOtp().equals(request.getOtp())) {
             return "redirect:/verify-account";
         }
+
+        LocalDateTime otpGeneratedTime = user.getOtpGeneratedTime();
+        if (LocalDateTime.now().isBefore(otpGeneratedTime.plusSeconds(120))) {
+            return "redirect:/verify-account";
+        }
+
+        if (user.isVerified()) {
+            return "redirect:/login";
+        }
+
+        user.setVerified(true);
+
+        long isReader = user.getRoles().stream().filter(r -> r.getName().equals("READER")).count();
+        if (isReader > 0) {
+            Card card = Card.builder()
+                    .statusCard(StatusCard.ACTIVE)
+                    .user(user)
+                    .expirationDate(LocalDateTime.now().plusYears(1))
+                    .build();
+            user.setCard(card);
+        }
+
+
+        userRepository.save(user);
+        return "redirect:/login";
     }
+
 
     public Object regenerateOtp(RegenerateOtpRequest request) {
         User user = userRepository.findByEmail(request.getEmail()).orElseThrow(

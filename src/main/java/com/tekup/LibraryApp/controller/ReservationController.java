@@ -22,18 +22,18 @@ public class ReservationController {
     private final BookService bookService;
 
 
-
     @PostMapping("/reserve")
     public String reserveBook(@ModelAttribute("reserve") ReservationRequest reservationRequest,
                               Principal user
     ) {
         reservationService.reserve(reservationRequest, user);
-        return "reader/book-reserve";
+        return "redirect:/books";
     }
-    @GetMapping("/reserve")
-    public String showListBook(Model model,@RequestParam(defaultValue = "1",name = "page") int pageNo) {
-        final int PAGE_SIZE=5;
-        Page<Book> page =bookService.findPaginated(pageNo - 1,PAGE_SIZE);
+
+    @GetMapping("/books")
+    public String showListBook(Model model, @RequestParam(defaultValue = "1", name = "page") int pageNo) {
+        final int PAGE_SIZE = 5;
+        Page<Book> page = bookService.findPaginated(pageNo - 1, PAGE_SIZE);
 
         var books = page.getContent();
         model.addAttribute("currentPage", pageNo);
@@ -42,7 +42,7 @@ public class ReservationController {
         model.addAttribute("books", books);
         model.addAttribute("reservationRequest", new ReservationRequest());
 
-        return "reader/book-reserve";
+        return "reader/books";
     }
 
 }

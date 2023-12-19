@@ -12,7 +12,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString(exclude = {"categories","bookCopies"})
+@ToString(exclude = {"categories", "bookCopies"})
 @AllArgsConstructor
 @Table(name = "books")
 
@@ -37,18 +37,20 @@ public class Book {
     private Set<Category> categories;
     private String imageUrl;
 
-    @OneToMany(mappedBy = "book",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
     private Set<BookCopy> bookCopies;
 
     private int numberPages;
 
-    private String Language;
-    public long countAvailableCopies() {
-        return bookCopies.size();
-    }
+    private Boolean archived = false;
 
+    private String Language;
+
+    public long countAvailableCopies() {
+        return bookCopies.stream().filter(copy -> copy.getStatusCopy().equals(StatusCopy.AVAILABLE)).count();
+    }
     public long countUnavailableCopies() {
-        return bookCopies.size();
+        return bookCopies.stream().filter(copy -> copy.getStatusCopy().equals(StatusCopy.UNAVAILABLE)).count();
     }
 
 }

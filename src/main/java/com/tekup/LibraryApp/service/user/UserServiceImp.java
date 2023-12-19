@@ -1,15 +1,17 @@
 package com.tekup.LibraryApp.service.user;
 
+import com.tekup.LibraryApp.exception.ResourceNotFoundException;
+import com.tekup.LibraryApp.model.library.Category;
 import com.tekup.LibraryApp.model.user.Role;
 import com.tekup.LibraryApp.model.user.User;
 import com.tekup.LibraryApp.payload.request.ChangePasswordRequest;
 import com.tekup.LibraryApp.payload.response.ErrorResponse;
 import com.tekup.LibraryApp.payload.response.MessageResponse;
+import com.tekup.LibraryApp.repository.library.CategoryRepo;
 import com.tekup.LibraryApp.repository.user.RoleRepository;
 import com.tekup.LibraryApp.repository.user.UserRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import com.tekup.LibraryApp.exception.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.bcrypt.BCrypt;
@@ -17,9 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 
 @Service
@@ -28,11 +28,14 @@ public class UserServiceImp implements UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
-
+    private final CategoryRepo categoryRepo;
     private void seedRoles() {
         roleRepository.save(new Role(1L, "ADMIN"));
         roleRepository.save(new Role(2L, "READER"));
-
+        categoryRepo.save(new Category("Action"));
+        categoryRepo.save(new Category("Drama"));
+        categoryRepo.save(new Category("Mystery"));
+        categoryRepo.save(new Category("Horror"));
     }
 
     public boolean seedInitialUsers() {

@@ -9,4 +9,12 @@ public interface BookService {
 
 
     Page<Book> findPaginated(int pageNo, int pageSize);
+
+    Book getBookById(Long id);
+
+    void updateBook(Long id, BookAddRequest bookAddRequest);
+
+    void archiveBook(Long id);
+
+    void revealBook(Long id);
 }

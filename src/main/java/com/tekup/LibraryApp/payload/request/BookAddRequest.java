@@ -17,5 +17,8 @@ public class BookAddRequest {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate publicationDate;
     private Set<String> categories;
-    private int numberOfCopies;
+    public int numberOfCopies;
+    String imageUrl;
+    int numberPages;
+    String language;
 }
