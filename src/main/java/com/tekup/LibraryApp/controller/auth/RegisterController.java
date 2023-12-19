@@ -1,6 +1,6 @@
 package com.tekup.LibraryApp.controller.auth;
 
-import com.tekup.LibraryApp.payload.request.RegisterRequest;
+import com.tekup.LibraryApp.payload.request.auth.RegisterRequest;
 import com.tekup.LibraryApp.service.auth.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;

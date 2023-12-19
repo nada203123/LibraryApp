@@ -16,6 +16,6 @@ public class BookCatalogueFilter {
     private String language;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate publicationDate;
-    private List<String> authors;
+    private String author;
     private List<String> categories;
 }

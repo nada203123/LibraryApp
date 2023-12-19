@@ -48,7 +48,7 @@ public class Book {
 
     private Boolean archived = false;
 
-    private String Language;
+    private String language;
 
     public long countAvailableCopies() {
         return bookCopies.stream().filter(copy -> copy.getStatusCopy().equals(StatusCopy.AVAILABLE)).count();

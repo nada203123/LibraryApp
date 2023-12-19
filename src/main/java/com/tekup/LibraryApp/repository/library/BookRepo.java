@@ -10,17 +10,22 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface BookRepo extends JpaRepository<Book,Long> {
+public interface BookRepo extends JpaRepository<Book, Long> {
     @Query("SELECT DISTINCT b FROM Book b " +
             "LEFT JOIN b.authors a " +
             "LEFT JOIN b.categories c " +
-            "WHERE (:title IS NULL OR b.title LIKE %:title%) " +
-            "AND (:category IS NULL OR c.name IN :category) " +
-            "AND (:author IS NULL OR a.name IN :author) ")
+            "WHERE " +
+            "   (COALESCE(:title, '') = '' OR LOWER(b.title) LIKE LOWER(CONCAT('%', :title, '%'))) " +
+            "   AND (COALESCE(:language, '') = '' OR LOWER(b.language) LIKE LOWER(CONCAT('%', :language, '%'))) " +
+            "   AND (:category IS NULL OR c.name IN :category) " +
+            "   AND (COALESCE(:author, '') = '' OR LOWER(a.name) = LOWER(:author)) ")
     Page<Book> findByFilters(
             @Param("title") String title,
             @Param("category") List<String> category,
-            @Param("author") List<String> author,
+            @Param("author") String author,
+            @Param("language") String language,
             Pageable pageable
     );
+
+
 }

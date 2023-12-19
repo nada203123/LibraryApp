@@ -1,6 +1,6 @@
 package com.tekup.LibraryApp.controller.auth;
 
-import com.tekup.LibraryApp.payload.request.*;
+import com.tekup.LibraryApp.payload.request.auth.RegenerateOtpRequest;
 import com.tekup.LibraryApp.service.auth.AuthenticationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

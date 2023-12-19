@@ -48,7 +48,7 @@ public class BookServiceImpli implements BookService {
                 .bookCopies(copies)
                 .publicationDate(bookAddRequest.getPublicationDate())
                 .imageUrl(bookAddRequest.getImageUrl())
-                .Language(bookAddRequest.getLanguage())
+                .language(bookAddRequest.getLanguage())
                 .numberPages(bookAddRequest.getNumberPages())
                 .build();
 

@@ -1,6 +1,6 @@
 package com.tekup.LibraryApp.service.auth;
 
-import com.tekup.LibraryApp.payload.request.*;
+import com.tekup.LibraryApp.payload.request.auth.*;
 import jakarta.servlet.http.HttpServletResponse;
 
 public interface AuthenticationService {

@@ -8,7 +8,7 @@ import com.tekup.LibraryApp.model.library.StatusCard;
 import com.tekup.LibraryApp.model.password.ResetPassword;
 import com.tekup.LibraryApp.model.user.Role;
 import com.tekup.LibraryApp.model.user.User;
-import com.tekup.LibraryApp.payload.request.*;
+import com.tekup.LibraryApp.payload.request.auth.*;
 import com.tekup.LibraryApp.repository.password.ResetPasswordRepository;
 import com.tekup.LibraryApp.repository.user.RoleRepository;
 import com.tekup.LibraryApp.repository.user.UserRepository;

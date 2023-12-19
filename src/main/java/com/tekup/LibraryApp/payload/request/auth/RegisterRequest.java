@@ -1,4 +1,4 @@
-package com.tekup.LibraryApp.payload.request;
+package com.tekup.LibraryApp.payload.request.auth;
 
 import com.tekup.LibraryApp.validation.password.StrongPassword;
 import jakarta.validation.constraints.Email;

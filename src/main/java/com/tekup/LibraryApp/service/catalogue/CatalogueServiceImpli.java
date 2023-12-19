@@ -18,9 +18,11 @@ public class CatalogueServiceImpli implements CatalogueService {
     @Override
     public Page<Book> findBooksByFilters(BookCatalogueFilter bookCatalogueFilter, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
+        System.out.println(bookCatalogueFilter);
         return bookRepo.findByFilters(bookCatalogueFilter.getTitle(),
                 bookCatalogueFilter.getCategories(),
-                bookCatalogueFilter.getAuthors(),
+                bookCatalogueFilter.getAuthor(),
+                bookCatalogueFilter.getLanguage(),
                 pageable);
     }
 

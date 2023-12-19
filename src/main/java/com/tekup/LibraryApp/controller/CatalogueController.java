@@ -43,8 +43,6 @@ public class CatalogueController {
         var books = page.getContent();
         model.addAttribute("filter",bookCatalogueFilter);
         model.addAttribute("categories", List.of("Action","Horror")); // incomplete
-        model.addAttribute("authors", List.of("Ali","mohamed")); // incomplete
-
         model.addAttribute("currentPage", pageNo);
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("totalItems", page.getTotalElements());
