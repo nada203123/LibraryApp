@@ -35,6 +35,10 @@ public class Book {
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )
     private Set<Category> categories;
+
+    @ManyToMany(mappedBy = "books")
+    Set<Author> authors;
+
     private String imageUrl;
 
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
@@ -49,6 +53,7 @@ public class Book {
     public long countAvailableCopies() {
         return bookCopies.stream().filter(copy -> copy.getStatusCopy().equals(StatusCopy.AVAILABLE)).count();
     }
+
     public long countUnavailableCopies() {
         return bookCopies.stream().filter(copy -> copy.getStatusCopy().equals(StatusCopy.UNAVAILABLE)).count();
     }

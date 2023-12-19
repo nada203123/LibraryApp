@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <title>Book Reservation Page</title>
     <!-- Bootstrap CSS -->
@@ -13,6 +14,7 @@
 
         h1 {
             color: #007bff;
+            text-align: center;
         }
 
         .book-container {
@@ -22,18 +24,29 @@
         }
 
         .card {
-            width: 23%; /* Adjust as needed */
+            width: 23%;
             margin-bottom: 20px;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
         }
 
         .card-header {
             background-color: #007bff;
             color: white;
+            text-align: center;
+            padding: 10px;
         }
 
         .card-img-top {
             max-height: 200px;
             object-fit: cover;
+        }
+
+        .form-group {
+            margin-bottom: 10px;
         }
 
         form {
@@ -51,62 +64,99 @@
         }
     </style>
 </head>
+
 <body>
 
 <div class="container">
     <h1 class="mt-4 mb-4">Book Reservation Page</h1>
+    <form th:action="@{/books}" method="post">
 
-    <div class="book-container">
-        <div th:each="book : ${books}" class="card">
-            <img th:src="${book.imageUrl}" class="card-img-top" alt="Book Image">
-            <div class="card-header" th:text="${book.title}"></div>
-            <div class="card-body">
-                <p th:text="'Book ID: ' + ${book.id}"></p>
 
-                <form th:action="@{/reserve}" method="post">
-                    <input type="hidden" th:name="bookId" th:value="${book.id}" />
+        <!-- Title Input -->
+        <div class="form-group">
+            <label for="title">Title:</label>
+            <input type="text" id="title" name="title" class="form-control" th:value="${filter.title}" />
+        </div>
 
-                    <!-- Start Date Input -->
-                    <div class="form-group">
-                        <label for="startDate">Start Date:</label>
-                        <input type="datetime-local" id="startDate" name="startDate" class="form-control" required />
-                    </div>
-
-                    <!-- End Date Input -->
-                    <div class="form-group">
-                        <label for="endDate">End Date:</label>
-                        <input type="datetime-local" id="endDate" name="endDate" class="form-control" required />
-                    </div>
-
-                    <!-- Submit Button -->
-                    <button type="submit" class="btn btn-primary">Reserve</button>
-                </form>
+        <!-- Categories Input (checkbox buttons) -->
+        <div class="form-group">
+            <label>Categories:</label>
+            <div class="checkbox-group">
+                <div th:each="category : ${categories}" class="checkbox-item">
+                    <input type="checkbox" id="category" name="categories" th:value="${category}" th:checked="${filter.categories != null && filter.categories.contains(category)}" />
+                    <label th:for="${'category' + category}" th:text="${category}"></label>
+                </div>
             </div>
         </div>
-    </div>
 
-    <!-- Pagination -->
-    <div th:if="${totalPages > 1}" class="pagination">
-        <ul class="pagination justify-content-center">
-            <li class="page-item">
-                <span class="page-link">Total Rows: [[${totalItems}]]</span>
-            </li>
-            <li class="page-item" th:each="i: ${#numbers.sequence(1, totalPages)}">
-                <a th:if="${currentPage != i}"
-                   th:href="@{'/reserve?page=' + ${i} }"
-                   class="page-link">[[${i}]]</a>
-                <span th:unless="${currentPage != i}" class="page-link">[[${i}]]</span>
-            </li>
-            <li class="page-item" th:if="${currentPage < totalPages}">
-                <a th:href="@{'/reserve?page=' + ${currentPage + 1}}"
-                   class="page-link">Next</a>
-            </li>
-            <li class="page-item" th:if="${currentPage < totalPages}">
-                <a th:href="@{'/reserve?page=' + ${totalPages} }"
-                   class="page-link">Last</a>
-            </li>
-        </ul>
-    </div>
+        <!-- Authors Input (checkbox buttons) -->
+        <div class="form-group">
+            <label>Authors:</label>
+            <div class="checkbox-group">
+                <div th:each="author : ${authors}" class="checkbox-item">
+                    <input type="checkbox" id="author" name="authors" th:value="${author}" th:checked="${filter.authors != null && filter.authors.contains(author)}" />
+                    <label th:for="${'author' + author}" th:text="${author}"></label>
+                </div>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-success">Search</button>
+    </form>
+        <div class="book-container">
+            <div th:each="book : ${books}" class="card">
+                <img th:if="${book.imageUrl != null}" th:src="${book.imageUrl}" class="card-img-top" alt="Book Image">
+                <img th:if="${book.imageUrl == null}" src="/images/man-sitting.jpg" class="card-img-top" alt="Default Image">
+                <div class="card-header" th:text="${book.title}"></div>
+                <div class="card-body">
+                    <div class="form-group" th:if="${book.countAvailableCopies() > 0}">
+                        Available
+                    </div>
+                    <div class="form-group" th:if="${book.countAvailableCopies() <= 0}">
+                        Unavailable
+                    </div>
+                    <p th:text="'Book ID: ' + ${book.id}"></p>
+
+                    <form th:action="@{/reserve}" method="post">
+                        <input type="hidden" th:name="bookId" th:value="${book.id}" />
+
+                        <!-- Start Date Input -->
+                        <div class="form-group">
+                            <label for="startDate">Start Date:</label>
+                            <input type="datetime-local" id="startDate" name="startDate" class="form-control" required />
+                        </div>
+
+                        <!-- End Date Input -->
+                        <div class="form-group">
+                            <label for="endDate">End Date:</label>
+                            <input type="datetime-local" id="endDate" name="endDate" class="form-control" required />
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button th:if="${book.countAvailableCopies() > 0}" type="submit" class="btn btn-primary">Reserve</button>
+                        <button th:if="${book.countAvailableCopies() <= 0}" type="submit" class="btn btn-success">Loan</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pagination -->
+        <div th:if="${totalPages > 1}" class="pagination">
+            <ul class="pagination justify-content-center">
+                <li class="page-item">
+                    <span class="page-link">Total Rows: [[${totalItems}]]</span>
+                </li>
+                <li class="page-item" th:each="i: ${#numbers.sequence(1, totalPages)}">
+                    <a th:if="${currentPage != i}" th:href="@{'/books?page=' + ${i} }" class="page-link">[[${i}]]</a>
+                    <span th:unless="${currentPage != i}" class="page-link">[[${i}]]</span>
+                </li>
+                <li class="page-item" th:if="${currentPage < totalPages}">
+                    <a th:href="@{'/books?page=' + ${currentPage + 1}}" class="page-link">Next</a>
+                </li>
+                <li class="page-item" th:if="${currentPage < totalPages}">
+                    <a th:href="@{'/books?page=' + ${totalPages} }" class="page-link">Last</a>
+                </li>
+            </ul>
+        </div>
 </div>
 
 <!-- Bootstrap JS and Popper.js (required for Bootstrap components) -->
@@ -115,4 +165,5 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 </body>
+
 </html>

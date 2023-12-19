@@ -8,7 +8,6 @@ public interface BookService {
     String addBook(BookAddRequest bookAddRequest);
 
 
-    Page<Book> findPaginated(int pageNo, int pageSize);
 
     Book getBookById(Long id);
 

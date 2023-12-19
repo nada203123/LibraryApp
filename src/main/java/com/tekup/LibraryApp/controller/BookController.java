@@ -5,6 +5,7 @@ import com.tekup.LibraryApp.model.library.Category;
 import com.tekup.LibraryApp.payload.request.BookAddRequest;
 import com.tekup.LibraryApp.repository.library.CategoryRepo;
 import com.tekup.LibraryApp.service.Book.BookService;
+import com.tekup.LibraryApp.service.catalogue.CatalogueService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,7 @@ import java.util.List;
 public class BookController {
     private final BookService bookService;
     private final CategoryRepo categoryRepo;
+    private final CatalogueService catalogueService;
 
     @GetMapping("/admin/book/add")
     public String showAddBookForm(Model model) {
@@ -34,7 +36,7 @@ public class BookController {
     @GetMapping("/admin/book/list")
     public String getPaginatedBooks(@RequestParam(value = "page", defaultValue = "1") int pageNo, Model model) {
         final int PAGE_SIZE = 5;
-        Page<Book> page = bookService.findPaginated(pageNo - 1, PAGE_SIZE);
+        Page<Book> page = catalogueService.findPaginated(pageNo - 1, PAGE_SIZE);
         var books = page.getContent();
         model.addAttribute("currentPage", pageNo);
         model.addAttribute("totalPages", page.getTotalPages());
@@ -65,6 +67,7 @@ public class BookController {
         return "redirect:/admin/book/list?page="+page;
 
     }
+    //opposite of archive (didn't find a meaningful word)
     @GetMapping("/admin/book/reveal")
     public String revealBook(@RequestParam Long id,@RequestParam int page) {
         bookService.revealBook(id);

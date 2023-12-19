@@ -10,9 +10,6 @@ import com.tekup.LibraryApp.repository.library.BookCopyRepo;
 import com.tekup.LibraryApp.repository.library.BookRepo;
 import com.tekup.LibraryApp.repository.library.CategoryRepo;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
@@ -59,12 +56,6 @@ public class BookServiceImpli implements BookService {
         newBook.setArchived(false);
         bookRepo.save(newBook);
         return "redirect:/admin/book/add";
-    }
-
-    @Override
-    public Page<Book> findPaginated(int pageNo, int pageSize) {
-        Pageable pageable = PageRequest.of(pageNo, pageSize);
-        return bookRepo.findAll(pageable);
     }
 
     @Override

@@ -4,21 +4,14 @@ import com.tekup.LibraryApp.exception.ResourceNotFoundException;
 import com.tekup.LibraryApp.model.library.Category;
 import com.tekup.LibraryApp.model.user.Role;
 import com.tekup.LibraryApp.model.user.User;
-import com.tekup.LibraryApp.payload.request.ChangePasswordRequest;
-import com.tekup.LibraryApp.payload.response.ErrorResponse;
-import com.tekup.LibraryApp.payload.response.MessageResponse;
 import com.tekup.LibraryApp.repository.library.CategoryRepo;
 import com.tekup.LibraryApp.repository.user.RoleRepository;
 import com.tekup.LibraryApp.repository.user.UserRepository;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.security.Principal;
 import java.util.Collections;
 import java.util.List;
 
@@ -55,20 +48,20 @@ public class UserServiceImp implements UserService {
         return !savedUsers.isEmpty();
     }
 
-    @Override
-    public Object changePassword(@Valid ChangePasswordRequest request, Principal connectedUser) {
-        User user = (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
-        if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {
-            return ErrorResponse.builder()
-                    .errors(List.of("Current password is wrong"))
-                    .http_code(HttpStatus.UNAUTHORIZED.value())
-                    .build();
-        }
-        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
-        userRepository.save(user);
-        return MessageResponse.builder()
-                .message("Password updated successfully")
-                .http_code(HttpStatus.OK.value())
-                .build();
-    }
+//    @Override
+//    public Object changePassword(@Valid ChangePasswordRequest request, Principal connectedUser) {
+//        User user = (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
+//        if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {
+//            return ErrorResponse.builder()
+//                    .errors(List.of("Current password is wrong"))
+//                    .http_code(HttpStatus.UNAUTHORIZED.value())
+//                    .build();
+//        }
+//        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+//        userRepository.save(user);
+//        return MessageResponse.builder()
+//                .message("Password updated successfully")
+//                .http_code(HttpStatus.OK.value())
+//                .build();
+//    }
 }
