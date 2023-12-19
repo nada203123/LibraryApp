@@ -1,30 +1,26 @@
 package com.tekup.LibraryApp.controller;
 
 import com.tekup.LibraryApp.model.library.Book;
-import com.tekup.LibraryApp.model.library.Category;
 import com.tekup.LibraryApp.payload.request.BookAddRequest;
-import com.tekup.LibraryApp.repository.library.CategoryRepo;
 import com.tekup.LibraryApp.service.Book.BookService;
 import com.tekup.LibraryApp.service.catalogue.CatalogueService;
+import com.tekup.LibraryApp.service.category.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @Controller
 @RequiredArgsConstructor
 public class BookController {
     private final BookService bookService;
-    private final CategoryRepo categoryRepo;
+    private final CategoryService categoryService;
     private final CatalogueService catalogueService;
 
     @GetMapping("/admin/book/add")
     public String showAddBookForm(Model model) {
-        List<Category> allCategories = categoryRepo.findAll();
-        model.addAttribute("allCategories", allCategories);
+        model.addAttribute("allCategories", categoryService.getAllGategories());
         return "admin/book/add";
     }
 
@@ -48,7 +44,6 @@ public class BookController {
     @GetMapping("/admin/book/edit/{id}")
     public String showEditBookForm(@PathVariable Long id, Model model) {
         Book book = bookService.getBookById(id);
-        List<Category> allCategories = categoryRepo.findAll();
         model.addAttribute("book", book);
         return "admin/book/edit";
     }
