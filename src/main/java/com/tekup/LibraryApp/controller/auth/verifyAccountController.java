@@ -11,13 +11,9 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class verifyAccountController {
     private final AuthenticationService service;
-    @ModelAttribute("verify")
-    public VerifyAccountRequest verifyAccountRequestRequest() {
-        return new VerifyAccountRequest();
-    }
 
     @GetMapping
-    public String showVerifyAccountForm() {
+    public String showVerifyAccountForm(@ModelAttribute("verify") VerifyAccountRequest verifyAccountRequestRequest) {
         return "verify-account";
     }
 

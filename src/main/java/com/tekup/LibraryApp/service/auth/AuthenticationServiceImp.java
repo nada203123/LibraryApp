@@ -36,32 +36,20 @@ public class AuthenticationServiceImp implements AuthenticationService {
     private final RoleRepository roleRepository;
 
     public String register(RegisterRequest request) {
-        /*
-        Set<Role> roles = request.getRoles().stream()
-                .map(
-                        roleName -> roleRepository.findByName(roleName).orElseThrow(
-                                () -> new ResourceNotFoundException("Role not found for name: " + roleName)
-                        )
-                )
-                .collect(Collectors.toSet());
 
-
-
-        if (roles.isEmpty()) {
-            return "redirect:/register";
-        }
-         */
         String otpCode = otpCmp.generateOtp();
+        var memberRole=roleRepository.findByName("MEMBER").orElseThrow();
 
         User user = User.builder()
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(request.getRole())
+                .role(memberRole)
                 .otp(otpCode)
                 .otpGeneratedTime(LocalDateTime.now())
                 .build();
+        memberRole.getUsers().add(user);
         User savedUser = userRepository.save(user);
 
         emailSenderCmp.sendOtpVerification(savedUser.getEmail(), otpCode);
@@ -117,20 +105,6 @@ public class AuthenticationServiceImp implements AuthenticationService {
                     .build();
             user.setCard(card);
         }
-/*
-        long isReader = user.getRoles().stream().filter(r -> r.getName().equals("READER")).count();
-        if (isReader > 0) {
-            Card card = Card.builder()
-                    .statusCard(StatusCard.ACTIVE)
-                    .user(user)
-                    .expirationDate(LocalDateTime.now().plusYears(1))
-                    .build();
-            user.setCard(card);
-        }
-
- */
-
-
         userRepository.save(user);
         return "redirect:/login";
     }

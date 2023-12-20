@@ -18,13 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class RegisterController {
     private final AuthenticationService service;
 
-    @ModelAttribute("user")
-    public RegisterRequest request() {
-        return new RegisterRequest();
-    }
-
     @GetMapping
-    public String showRegistrationForm() {
+    public String showRegistrationForm(@ModelAttribute("user") RegisterRequest request) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (SecurityContextHolder.getContext().getAuthentication() != null &&
                 !(authentication instanceof AnonymousAuthenticationToken))

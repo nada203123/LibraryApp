@@ -1,7 +1,6 @@
 package com.tekup.LibraryApp.controller;
 
 import com.tekup.LibraryApp.payload.request.ReservationRequest;
-import com.tekup.LibraryApp.service.book.BookService;
 import com.tekup.LibraryApp.service.reservation.ReservationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -14,7 +13,6 @@ import java.security.Principal;
 @RequiredArgsConstructor
 public class ReservationController {
     private final ReservationService reservationService;
-    private final BookService bookService;
 
     @PostMapping("/reserve")
     public String reserveBook(@ModelAttribute("reserve") ReservationRequest reservationRequest,

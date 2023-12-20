@@ -7,8 +7,6 @@ import com.tekup.LibraryApp.model.library.StatusCopy;
 import com.tekup.LibraryApp.payload.request.BookAddRequest;
 import com.tekup.LibraryApp.repository.library.BookCopyRepo;
 import com.tekup.LibraryApp.repository.library.BookRepo;
-import com.tekup.LibraryApp.repository.library.CategoryRepository;
-import com.tekup.LibraryApp.service.category.CategoryService;
 import com.tekup.LibraryApp.service.notification.NotificationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,8 +20,6 @@ import java.util.stream.IntStream;
 public class BookServiceImpli implements BookService {
 
     private final BookRepo bookRepo;
-    private final CategoryRepository categoryRepo;
-    private final CategoryService categoryService;
     private final BookCopyRepo bookCopyRepo;
 
     private final NotificationService notificationService;

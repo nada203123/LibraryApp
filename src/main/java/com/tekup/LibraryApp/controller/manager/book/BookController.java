@@ -33,20 +33,6 @@ public class BookController {
         return bookService.addBook(bookAddRequest);
     }
 
-    /*
-        @GetMapping("/manager/book/list")
-        public String getPaginatedBooks(@RequestParam(value = "page", defaultValue = "1") int pageNo, Model model) {
-            final int PAGE_SIZE = 5;
-            Page<Book> page = catalogueService.findPaginated(pageNo - 1, PAGE_SIZE);
-            var books = page.getContent();
-            model.addAttribute("currentPage", pageNo);
-            model.addAttribute("totalPages", page.getTotalPages());
-            model.addAttribute("totalItems", page.getTotalElements());
-            model.addAttribute("books", books);
-            return "manager/book/list";
-        }
-
-     */
     @GetMapping("/book/list")
     public String getPaginatedBooks(@RequestParam(value = "page", defaultValue = "1") int pageNo,
                                     @RequestParam(value = "categories", required = false) Long[] categoryIds,
