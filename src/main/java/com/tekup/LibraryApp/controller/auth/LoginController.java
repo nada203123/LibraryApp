@@ -24,12 +24,11 @@ public class LoginController {
         return new LoginRequest();
     }
 
-
     @GetMapping
     public String showLoginForm() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (SecurityContextHolder.getContext().getAuthentication() != null &&
-                !(authentication instanceof AnonymousAuthenticationToken) )
+                !(authentication instanceof AnonymousAuthenticationToken))
             return "home";
 
         return "login";

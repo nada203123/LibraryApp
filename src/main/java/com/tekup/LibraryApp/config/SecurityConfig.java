@@ -26,27 +26,25 @@ public class SecurityConfig {
     private final AuthenticationProvider authenticationProvider;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, CustomAuthenticationSuccessHandler authenticationSuccessHandler) throws Exception {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(WHITE_LIST_URI)
                         .permitAll()
-                        .requestMatchers("/admin/**").hasAuthority("ADMIN")
                         .requestMatchers("/manager/**").hasAuthority("MANAGER")
-
+                        .requestMatchers("/member/**").hasAuthority("MEMBER")
                         .anyRequest()
                         .authenticated()
-
                 )
                 .formLogin(login -> login
-                                .loginPage("/login")
-                                .permitAll()
-                        //.successHandler(CustomAuthenticationSuccessHandler) role based redirect
+                        .loginPage("/login")
+                        .permitAll()
+                        .successHandler(authenticationSuccessHandler)
                 )
                 .authenticationProvider(authenticationProvider)
-                .exceptionHandling(exception->
+                .exceptionHandling(exception ->
                         exception.accessDeniedPage("/error"))
                 .build();
     }

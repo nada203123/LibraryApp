@@ -34,8 +34,8 @@ public class ReservationServiceImpli implements ReservationService {
 
         var bookOpt = bookRepo.findById(reservationRequest.getBookId()).orElseThrow();
         var bookCopies = bookOpt.getBookCopies();
-        User reader = (User) ((UsernamePasswordAuthenticationToken) user).getPrincipal();
-        entityManager.detach(reader);
+        User member = (User) ((UsernamePasswordAuthenticationToken) user).getPrincipal();
+        entityManager.detach(member);
 
         // check if this book copy id exist in the range of start date and end date in reservation
         var available = bookCopies.stream()
@@ -49,7 +49,7 @@ public class ReservationServiceImpli implements ReservationService {
                 .startDate(reservationRequest.getStartDate())
                 .endDate(reservationRequest.getEndDate())
                 .bookCopy(available)
-                .user(reader)
+                .user(member)
                 .build();
         available.getReservations().add(reservation);
 

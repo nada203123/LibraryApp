@@ -85,7 +85,6 @@ public class AuthenticationServiceImp implements AuthenticationService {
             }
             return "redirect:/login";
         } catch (BadCredentialsException e) {
-
             return "redirect:/login";
         }
     }
@@ -109,9 +108,9 @@ public class AuthenticationServiceImp implements AuthenticationService {
         }
 
         user.setVerified(true);
-        Role readerRole = user.getRole();
+        Role memberRole = user.getRole();
 
-        if (readerRole != null && readerRole.getName().equals("READER")) {
+        if (memberRole != null && memberRole.getName().equals("MEMBER")) {
             Card card = Card.builder()
                     .statusCard(StatusCard.ACTIVE)
                     .user(user)

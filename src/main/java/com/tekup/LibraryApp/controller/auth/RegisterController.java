@@ -35,6 +35,5 @@ public class RegisterController {
     @PostMapping
     public String register(@ModelAttribute("user") RegisterRequest request) {
         return service.register(request);
-
     }
 }

@@ -1,4 +1,4 @@
-package com.tekup.LibraryApp.controller;
+package com.tekup.LibraryApp.controller.member;
 
 import com.tekup.LibraryApp.model.library.Book;
 import com.tekup.LibraryApp.payload.request.BookCatalogueFilter;
@@ -11,15 +11,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @RequiredArgsConstructor
 @Controller
+@RequestMapping("/member")
 public class CatalogueController {
-
     private final CatalogueService catalogueService;
     private final CategoryService categoryService;
-
 
     @GetMapping("/books")
     public String showCatalogue(Model model, @RequestParam(defaultValue = "1", name = "page") int pageNo) {
@@ -33,7 +33,7 @@ public class CatalogueController {
         model.addAttribute("totalItems", page.getTotalElements());
         model.addAttribute("books", books);
         model.addAttribute("reservationRequest", new ReservationRequest());
-        return "reader/books";
+        return "/member/books";
     }
     @PostMapping("/books")
     public String showCatalogueFiltred(Model model,
@@ -50,7 +50,7 @@ public class CatalogueController {
         model.addAttribute("totalItems", page.getTotalElements());
         model.addAttribute("books", books);
         model.addAttribute("reservationRequest", new ReservationRequest());
-        return "reader/books";
+        return "/member/books";
     }
 
 }

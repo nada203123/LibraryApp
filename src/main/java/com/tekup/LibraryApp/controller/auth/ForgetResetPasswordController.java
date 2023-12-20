@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 @RequiredArgsConstructor
 public class ForgetResetPasswordController {
-
     private final AuthenticationService service;
+    
     @ModelAttribute("forgot")
     public ForgotPasswordRequest resetRequestRequest() {
         return new ForgotPasswordRequest();
@@ -44,5 +44,4 @@ public class ForgetResetPasswordController {
     public String resetPassword(@PathVariable String token, @ModelAttribute("reset") ResetPasswordRequest request) {
         return service.resetPassword(token,request);
     }
-
 }

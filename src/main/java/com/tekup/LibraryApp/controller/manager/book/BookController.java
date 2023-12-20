@@ -16,18 +16,19 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/manager")
 public class BookController {
     private final BookService bookService;
     private final CategoryService categoryService;
     private final CatalogueService catalogueService;
 
-    @GetMapping("/manager/book/add")
+    @GetMapping("/book/add")
     public String showAddBookForm(Model model) {
         model.addAttribute("categories", categoryService.getAllCategories());
         return "manager/book/add";
     }
 
-    @PostMapping("/manager/book/add")
+    @PostMapping("/book/add")
     public String addBook(@ModelAttribute("book") BookAddRequest bookAddRequest) {
         return bookService.addBook(bookAddRequest);
     }
@@ -46,7 +47,7 @@ public class BookController {
         }
 
      */
-    @GetMapping("/manager/book/list")
+    @GetMapping("/book/list")
     public String getPaginatedBooks(@RequestParam(value = "page", defaultValue = "1") int pageNo,
                                     @RequestParam(value = "categories", required = false) Long[] categoryIds,
                                     Model model) {
@@ -78,7 +79,7 @@ public class BookController {
         return "redirect:/manager/book/list?categories=" + categoriesQueryParam;
     }
 
-    @GetMapping("/manager/book/edit/{id}")
+    @GetMapping("/book/edit/{id}")
     public String showEditBookForm(@PathVariable Long id, Model model) {
         Book book = bookService.getBookById(id);
         model.addAttribute("book", book);
@@ -93,14 +94,14 @@ public class BookController {
         return "redirect:/manager/book/list";
     }
 
-    @GetMapping("/manager/book/archive")
+    @GetMapping("/book/archive")
     public String archiveBook(@RequestParam Long id,@RequestParam int page) {
         bookService.archiveBook(id);
         return "redirect:/manager/book/list?page="+page;
 
     }
     //opposite of archive (didn't find a meaningful word)
-    @GetMapping("/manager/book/reveal")
+    @GetMapping("/book/reveal")
     public String revealBook(@RequestParam Long id,@RequestParam int page) {
         bookService.revealBook(id);
         return "redirect:/manager/book/list?page="+page;

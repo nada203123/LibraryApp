@@ -16,15 +16,11 @@ public class ReservationController {
     private final ReservationService reservationService;
     private final BookService bookService;
 
-
     @PostMapping("/reserve")
     public String reserveBook(@ModelAttribute("reserve") ReservationRequest reservationRequest,
                               Principal user
     ) {
         reservationService.reserve(reservationRequest, user);
-        return "redirect:/books";
+        return "redirect:/member/books";
     }
-
-
-
 }

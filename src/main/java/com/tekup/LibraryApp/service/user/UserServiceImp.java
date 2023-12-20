@@ -23,8 +23,8 @@ public class UserServiceImp implements UserService {
     private final RoleRepository roleRepository;
     private final CategoryRepository categoryRepo;
     private void seedRoles() {
-        roleRepository.save(new Role(1L, "ADMIN"));
-        roleRepository.save(new Role(2L, "READER"));
+        roleRepository.save(new Role(1L, "MANAGER"));
+        roleRepository.save(new Role(2L, "MEMBER"));
         categoryRepo.save(new Category("Action"));
         categoryRepo.save(new Category("Drama"));
         categoryRepo.save(new Category("Mystery"));
@@ -33,11 +33,11 @@ public class UserServiceImp implements UserService {
 
     public boolean seedInitialUsers() {
         seedRoles();
-        Role managerRole = roleRepository.findByName("ADMIN").orElseThrow(
-                () -> new ResourceNotFoundException("Role not found for name: ADMIN")
+        Role managerRole = roleRepository.findByName("MANAGER").orElseThrow(
+                () -> new ResourceNotFoundException("Role not found for name: MANAGER")
                 );
-        Role memberRole = roleRepository.findByName("READER").orElseThrow(
-                () -> new ResourceNotFoundException("Role not found for name: READER")
+        Role memberRole = roleRepository.findByName("MEMBER").orElseThrow(
+                () -> new ResourceNotFoundException("Role not found for name: MEMBER")
                 );
 
         User admin1 = new User(1L, "Ali", "Ben Ali", "ali@gmail.com", BCrypt.hashpw("alipassword", BCrypt.gensalt()), managerRole, true);
