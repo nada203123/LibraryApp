@@ -4,23 +4,19 @@ import com.tekup.LibraryApp.model.user.Role;
 import com.tekup.LibraryApp.model.user.User;
 import com.tekup.LibraryApp.repository.user.RoleRepository;
 import com.tekup.LibraryApp.repository.user.UserRepository;
-import com.tekup.LibraryApp.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Collections;
 import java.util.List;
 
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor
 public class UserController {
-    private final UserService service;
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
 
@@ -38,8 +34,4 @@ public class UserController {
         return ResponseEntity.ok().body(Boolean.TRUE);
     }
 
-//    @PatchMapping("/update/password")
-//    public ResponseEntity<Object> changePassword(@Valid @RequestBody ChangePasswordRequest request, Principal connectedUser) {
-//        return ResponseEntity.ok().body(service.changePassword(request, connectedUser));
-//    }
 }

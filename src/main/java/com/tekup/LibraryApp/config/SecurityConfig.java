@@ -43,6 +43,12 @@ public class SecurityConfig {
                         .permitAll()
                         .successHandler(authenticationSuccessHandler)
                 )
+                .logout(logout -> logout
+                        .logoutUrl("/perform_logout")
+                        .logoutSuccessUrl("/login?logout")
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID")
+                )
                 .authenticationProvider(authenticationProvider)
                 .exceptionHandling(exception ->
                         exception.accessDeniedPage("/error"))

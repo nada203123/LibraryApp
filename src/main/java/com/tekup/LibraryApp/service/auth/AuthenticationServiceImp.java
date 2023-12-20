@@ -20,10 +20,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.time.LocalDateTime;
-import java.util.Set;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -196,5 +195,16 @@ public class AuthenticationServiceImp implements AuthenticationService {
     public boolean isResetPasswordTokenValid(LocalDateTime expirationDate) {
         LocalDateTime currentDate = LocalDateTime.now();
         return expirationDate.isAfter(currentDate);
+    }
+
+    @Override
+    public String changePassword(ChangePasswordRequest request, Principal connectedUser) {
+        User user = (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
+        if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {
+            return "redirect:/update/password?error";
+        }
+        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        userRepository.save(user);
+        return "redirect:/update/password?success";
     }
 }

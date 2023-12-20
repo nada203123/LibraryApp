@@ -9,17 +9,14 @@ import com.tekup.LibraryApp.repository.user.RoleRepository;
 import com.tekup.LibraryApp.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCrypt;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class UserServiceImp implements UserService {
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
     private final CategoryRepository categoryRepo;
     private void seedRoles() {
@@ -48,20 +45,5 @@ public class UserServiceImp implements UserService {
         return !savedUsers.isEmpty();
     }
 
-//    @Override
-//    public Object changePassword(@Valid ChangePasswordRequest request, Principal connectedUser) {
-//        User user = (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
-//        if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {
-//            return ErrorResponse.builder()
-//                    .errors(List.of("Current password is wrong"))
-//                    .http_code(HttpStatus.UNAUTHORIZED.value())
-//                    .build();
-//        }
-//        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
-//        userRepository.save(user);
-//        return MessageResponse.builder()
-//                .message("Password updated successfully")
-//                .http_code(HttpStatus.OK.value())
-//                .build();
-//    }
+
 }
