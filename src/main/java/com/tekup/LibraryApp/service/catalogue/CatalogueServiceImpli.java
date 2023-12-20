@@ -9,6 +9,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class CatalogueServiceImpli implements CatalogueService {
@@ -30,5 +32,10 @@ public class CatalogueServiceImpli implements CatalogueService {
     public Page<Book> findPaginated(int pageNo, int pageSize) {
         Pageable pageable = PageRequest.of(pageNo, pageSize);
         return bookRepo.findAll(pageable);
+    }
+
+    @Override
+    public Page<Book> findPaginatedBySelectedCategories(List<Long> categories, int pageNo, int pageSize) {
+        return bookRepo.findPaginatedByCategories(categories, PageRequest.of(pageNo, pageSize));
     }
 }

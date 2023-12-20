@@ -27,5 +27,7 @@ public interface BookRepo extends JpaRepository<Book, Long> {
             Pageable pageable
     );
 
+    @Query("SELECT b FROM Book b INNER JOIN b.categories c WHERE c.id IN :categoryIds")
+    Page<Book> findPaginatedByCategories(@Param("categoryIds") List<Long> categoryIds, Pageable pageable);
 
 }
