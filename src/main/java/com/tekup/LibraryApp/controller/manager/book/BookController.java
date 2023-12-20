@@ -20,7 +20,7 @@ public class BookController {
 
     @GetMapping("/manager/book/add")
     public String showAddBookForm(Model model) {
-        model.addAttribute("allCategories", categoryService.getAllCategoriesNames());
+        model.addAttribute("categories", categoryService.getAllCategories());
         return "manager/book/add";
     }
 
