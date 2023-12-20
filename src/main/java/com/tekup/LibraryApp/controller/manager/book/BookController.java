@@ -1,9 +1,8 @@
 package com.tekup.LibraryApp.controller.manager.book;
 
 import com.tekup.LibraryApp.model.library.Book;
-import com.tekup.LibraryApp.model.library.Category;
 import com.tekup.LibraryApp.payload.request.BookAddRequest;
-import com.tekup.LibraryApp.service.Book.BookService;
+import com.tekup.LibraryApp.service.book.BookService;
 import com.tekup.LibraryApp.service.catalogue.CatalogueService;
 import com.tekup.LibraryApp.service.category.CategoryService;
 import lombok.RequiredArgsConstructor;

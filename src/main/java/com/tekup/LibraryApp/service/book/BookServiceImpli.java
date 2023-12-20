@@ -1,4 +1,4 @@
-package com.tekup.LibraryApp.service.Book;
+package com.tekup.LibraryApp.service.book;
 
 import com.tekup.LibraryApp.exception.ResourceNotFoundException;
 import com.tekup.LibraryApp.model.library.Book;
@@ -9,6 +9,7 @@ import com.tekup.LibraryApp.repository.library.BookCopyRepo;
 import com.tekup.LibraryApp.repository.library.BookRepo;
 import com.tekup.LibraryApp.repository.library.CategoryRepository;
 import com.tekup.LibraryApp.service.category.CategoryService;
+import com.tekup.LibraryApp.service.notification.NotificationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,8 +24,9 @@ public class BookServiceImpli implements BookService {
     private final BookRepo bookRepo;
     private final CategoryRepository categoryRepo;
     private final CategoryService categoryService;
-
     private final BookCopyRepo bookCopyRepo;
+
+    private final NotificationService notificationService;
 
     private Set<BookCopy> createBookCopies(int numberOfCopies) {
         return IntStream.range(0, numberOfCopies)
@@ -58,6 +60,8 @@ public class BookServiceImpli implements BookService {
         copies.forEach(bookCopy -> bookCopy.setBook(newBook));
         newBook.setArchived(false);
         bookRepo.save(newBook);
+        String notificationMessage = "New book added: " + bookAddRequest.getTitle();
+        notificationService.sendNotificationToMembers(notificationMessage);
         return "redirect:/manager/book/add";
     }
 

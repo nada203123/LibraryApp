@@ -1,7 +1,7 @@
 package com.tekup.LibraryApp.controller;
 
 import com.tekup.LibraryApp.payload.request.ReservationRequest;
-import com.tekup.LibraryApp.service.Book.BookService;
+import com.tekup.LibraryApp.service.book.BookService;
 import com.tekup.LibraryApp.service.reservation.ReservationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
