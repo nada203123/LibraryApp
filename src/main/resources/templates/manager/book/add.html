@@ -1,117 +1,70 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{manager/layout.html}">
 <head>
-    <meta charset="UTF-8">
-    <title>Registration and Login System</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-          rel="stylesheet"
-          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-          crossorigin="anonymous">
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
-
-        .navbar {
-            background-color: #343a40;
-        }
-
-        .navbar-brand {
-            color: #ffffff;
-        }
-
-        .navbar-toggler-icon {
-            background-color: #ffffff;
-        }
-
-        .card {
-            border: 1px solid #dcdcdc;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .card-header {
-            background-color: #343a40;
-            color: #ffffff;
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .btn-primary {
-            background-color: #007bff;
-            border-color: #007bff;
-        }
-
-        .btn-primary:hover {
-            background-color: #0056b3;
-            border-color: #0056b3;
-        }
-
-        .alert {
-            margin-bottom: 1.5rem;
-        }
-        .container{
-            position: absolute;
-            top: 45%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            padding: 10px;
-
-        }
-    </style></head>
+    <title>Add Book</title>
+</head>
 <body>
-
-<div class="container">
+<div layout:fragment="content">
     <div class="row">
-        <div class="col-md-6 offset-md-3">
+        <div class="col-lg-8 mx-auto">
             <div class="card">
-                <div class="card-header">
-                    <h2 class="text-center">Add Book Form</h2>
+                <div class="card-header py-3 bg-transparent">
+                    <h5 class="mb-0">Add New Book</h5>
                 </div>
                 <div class="card-body">
-                    <form method="post" role="form" th:action="@{/admin/book/add}" class="form-horizontal">
-                        <div class="form-group mb-3">
-                            <label class="control-label">Title</label>
-                            <input type="text" id="title" name="title" class="form-control" placeholder="Enter the Book title"/>
-                        </div>
-
-
-
-                        <div class="form-group mb-3">
-                            <label class="control-label">Publication Date</label>
-                            <input type="date" id="publicationDate" name="publicationDate" class="form-control" placeholder="Enter the publication date"/>
-                        </div>
-                        <div class="form-group mb-3">
-                            <label class="control-label">Copies Number</label>
-                            <input type="number" id="numberOfCopies" name="numberOfCopies" class="form-control" placeholder="Enter the Number of copies"/>
-                        </div>
-                        <div class="form-group mb-3">
-                            <label class="control-label">Category</label>
-                            <div th:each="category : ${allCategories}">
-                                <input type="checkbox" th:id="${'category-' + category.id}" th:name="categories" th:value="${category.name}" class="form-check-input"/>
-                                <label th:for="${'category-' + category.id}" th:text="${category.name}" class="form-check-label"></label>
-                                <br/>
+                    <div class="border p-3 rounded">
+                        <form class="row g-3" method="post" role="form" th:action="@{/manager/book/add}">
+                            <div class="col-12">
+                                <label class="form-label" for="title">Book title</label>
+                                <input type="text" id="title" name="title" class="form-control"
+                                       placeholder="Enter the Book title"/>
                             </div>
 
-                        </div>
-                        <div class="form-group mb-3">
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                        </div>
-                    </form>
+                            <div class="col-12">
+                                <label class="form-label" for="publicationDate">Publication Date</label>
+                                <input type="date" id="publicationDate" name="publicationDate" class="form-control"
+                                       placeholder="Enter the publication date"/>
+                            </div>
+
+                            <div class="col-12">
+                                <label class="form-label" for="numberOfCopies">Copies Number</label>
+                                <input type="number" id="numberOfCopies" name="numberOfCopies" class="form-control"
+                                       placeholder="Enter the Number of copies"/>
+                            </div>
+
+                            <div class="col-12">
+                                <label class="form-label" for="language">Language</label>
+                                <input type="text" id="language" name="language" class="form-control"
+                                       placeholder="Enter the Language of the book" />
+                            </div>
+
+                            <div class="col-12 col-md-6">
+                                <label class="control-label">Category</label>
+                                <div th:each="category : ${allCategories}">
+                                    <input type="checkbox" th:id="${'category-' + category.id}" th:name="categories"
+                                           th:value="${category.name}"
+                                           class="form-check-input"/>
+                                    <label th:for="${'category-' + category.id}" th:text="${category.name}"
+                                           class="form-check-label"></label>
+                                    <br/>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <label class="form-label">Images</label>
+                                <input class="form-control" type="file">
+                            </div>
+                            <div class="col-12">
+                                <button class="btn btn-primary px-4" type="submit">Submit Item</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </div><!--end row-->
+    <!--end page main-->
 </div>
-
-<!-- Include Bootstrap JS and Popper.js -->
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
-        integrity="sha384-L4GTU6+Kb5BSG7RJZ9aPOeSv9zC7T/iUIdB2lGG+AvOZIljgRPF3b1oPbu4r+1Hy"
-        crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
-        integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofxFYxYqFcCrrWAQq3b1J7G6WGfRTt8DEB"
-        crossorigin="anonymous"></script>
 </body>
 </html>

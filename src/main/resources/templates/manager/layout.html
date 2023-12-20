@@ -1,5 +1,7 @@
 <!doctype html>
-<html lang="en" class="minimal-theme" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" class="minimal-theme" xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+>
 
 <head>
     <!-- Required meta tags -->
@@ -206,22 +208,15 @@
             </li>
             <li>
                 <a href="javascript:;" class="has-arrow">
-                    <div class="parent-icon"><i class="bi bi-grid"></i>
+                    <div class="parent-icon"><i class="bi bi-book"></i>
                     </div>
-                    <div class="menu-title">Application</div>
+                    <div class="menu-title">Book</div>
                 </a>
                 <ul>
-                    <li><a href="app-emailbox.html"><i class="bi bi-arrow-right-short"></i>Tab 1</a>
+                    <li><a th:href="@{/manager/book/list}"><i class="bi bi-arrow-right-short"></i>List</a>
                     </li>
-                    <li><a href="app-chat-box.html"><i class="bi bi-arrow-right-short"></i>Tab 1</a>
+                    <li><a th:href="@{/manager/book/add}"><i class="bi bi-arrow-right-short"></i>Create</a>
                     </li>
-                    <li><a href="app-file-manager.html"><i class="bi bi-arrow-right-short"></i>Tab 1</a>
-                    </li>
-                    <li><a href="app-to-do.html"><i class="bi bi-arrow-right-short"></i>Tab 1</a>
-                    </li>
-                    <li><a href="app-invoice.html"><i class="bi bi-arrow-right-short"></i>Tab 1</a>
-                    </li>
-                    <li><a href="app-fullcalender.html"><i class="bi bi-arrow-right-short"></i>Tab 1</a>
                     </li>
                 </ul>
             </li>
@@ -229,12 +224,13 @@
         <!--end navigation-->
     </aside>
     <!--end sidebar -->
-
     <!--start content-->
     <main class="page-content">
         <div class="card shadow-sm radius-10 border-0 mb-3">
             <div class="card-body">
-
+                <div layout:fragment="content">
+                <p>Page content</p>
+                </div>
             </div>
         </div>
 

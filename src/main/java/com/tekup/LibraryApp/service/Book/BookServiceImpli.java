@@ -55,7 +55,7 @@ public class BookServiceImpli implements BookService {
         copies.forEach(bookCopy -> bookCopy.setBook(newBook));
         newBook.setArchived(false);
         bookRepo.save(newBook);
-        return "redirect:/admin/book/add";
+        return "redirect:/manager/book/add";
     }
 
     @Override
