@@ -13,9 +13,9 @@ import java.util.Collection;
 @Configuration
 public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
     SimpleUrlAuthenticationSuccessHandler userSuccessHandler =
-            new SimpleUrlAuthenticationSuccessHandler("/welcome ");
-    SimpleUrlAuthenticationSuccessHandler adminSuccessHandler =
             new SimpleUrlAuthenticationSuccessHandler("/welcome");
+    SimpleUrlAuthenticationSuccessHandler managerSuccessHandler =
+            new SimpleUrlAuthenticationSuccessHandler("/manager/category");
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
@@ -29,8 +29,8 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
                     this.userSuccessHandler.onAuthenticationSuccess(request, response, authentication);
                     return;
                 }
-                case "ROLE_ADMIN" -> {
-                    this.adminSuccessHandler.onAuthenticationSuccess(request, response, authentication);
+                case "ROLE_MANAGER" -> {
+                    this.managerSuccessHandler.onAuthenticationSuccess(request, response, authentication);
                     return;
                 }
             }

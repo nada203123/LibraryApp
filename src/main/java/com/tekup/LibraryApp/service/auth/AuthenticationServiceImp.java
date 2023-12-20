@@ -37,6 +37,7 @@ public class AuthenticationServiceImp implements AuthenticationService {
     private final RoleRepository roleRepository;
 
     public String register(RegisterRequest request) {
+        /*
         Set<Role> roles = request.getRoles().stream()
                 .map(
                         roleName -> roleRepository.findByName(roleName).orElseThrow(
@@ -45,10 +46,12 @@ public class AuthenticationServiceImp implements AuthenticationService {
                 )
                 .collect(Collectors.toSet());
 
+
+
         if (roles.isEmpty()) {
             return "redirect:/register";
         }
-
+         */
         String otpCode = otpCmp.generateOtp();
 
         User user = User.builder()
@@ -56,7 +59,7 @@ public class AuthenticationServiceImp implements AuthenticationService {
                 .lastName(request.getLastName())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .roles(roles)
+                .role(request.getRole())
                 .otp(otpCode)
                 .otpGeneratedTime(LocalDateTime.now())
                 .build();
@@ -77,7 +80,7 @@ public class AuthenticationServiceImp implements AuthenticationService {
             User user = userRepository.findByEmailWithRoles(request.getEmail()).orElseThrow(
                     () -> new ResourceNotFoundException("User not found for email: " + request.getEmail())
             );
-            if (user.getRoles().equals("MANAGER")) {
+            if (user.getRole().getName().equals("MANAGER")) {
                 return "redirect:/manager";
             }
             return "redirect:/login";
@@ -106,7 +109,17 @@ public class AuthenticationServiceImp implements AuthenticationService {
         }
 
         user.setVerified(true);
+        Role readerRole = user.getRole();
 
+        if (readerRole != null && readerRole.getName().equals("READER")) {
+            Card card = Card.builder()
+                    .statusCard(StatusCard.ACTIVE)
+                    .user(user)
+                    .expirationDate(LocalDateTime.now().plusYears(1))
+                    .build();
+            user.setCard(card);
+        }
+/*
         long isReader = user.getRoles().stream().filter(r -> r.getName().equals("READER")).count();
         if (isReader > 0) {
             Card card = Card.builder()
@@ -116,6 +129,8 @@ public class AuthenticationServiceImp implements AuthenticationService {
                     .build();
             user.setCard(card);
         }
+
+ */
 
 
         userRepository.save(user);

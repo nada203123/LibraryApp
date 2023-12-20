@@ -1,5 +1,6 @@
 package com.tekup.LibraryApp.payload.request.auth;
 
+import com.tekup.LibraryApp.model.user.Role;
 import com.tekup.LibraryApp.validation.password.StrongPassword;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -30,5 +31,5 @@ public class RegisterRequest {
     @StrongPassword
     private String password;
 
-    private Set<String> roles = new HashSet<>();
+    private Role role;
 }

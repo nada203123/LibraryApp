@@ -19,7 +19,7 @@ public class Role {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @ManyToMany(mappedBy = "roles")
+    @OneToMany(mappedBy = "role")
     Set<User> users;
 
     public Role(long id, String name) {

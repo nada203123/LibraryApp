@@ -33,15 +33,15 @@ public class UserServiceImp implements UserService {
 
     public boolean seedInitialUsers() {
         seedRoles();
-        Role adminRole = roleRepository.findByName("ADMIN").orElseThrow(
+        Role managerRole = roleRepository.findByName("ADMIN").orElseThrow(
                 () -> new ResourceNotFoundException("Role not found for name: ADMIN")
                 );
-        Role readerRole = roleRepository.findByName("READER").orElseThrow(
+        Role memberRole = roleRepository.findByName("READER").orElseThrow(
                 () -> new ResourceNotFoundException("Role not found for name: READER")
                 );
 
-        User admin1 = new User(1L, "Ali", "Ben Ali", "ali@gmail.com", BCrypt.hashpw("alipassword", BCrypt.gensalt()), Collections.singleton(adminRole), true);
-        User driver1 = new User(2L, "Saleh", "Ben Saleh", "saleh@gmail.com", BCrypt.hashpw("salehpassword", BCrypt.gensalt()), Collections.singleton(readerRole), true);
+        User admin1 = new User(1L, "Ali", "Ben Ali", "ali@gmail.com", BCrypt.hashpw("alipassword", BCrypt.gensalt()), managerRole, true);
+        User driver1 = new User(2L, "Saleh", "Ben Saleh", "saleh@gmail.com", BCrypt.hashpw("salehpassword", BCrypt.gensalt()), memberRole, true);
 
 
         List<User> savedUsers = userRepository.saveAll(List.of(admin1, driver1));

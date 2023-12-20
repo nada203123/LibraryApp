@@ -11,10 +11,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
-
 @Entity
 @Builder
 @Getter
@@ -55,33 +54,36 @@ public class User implements UserDetails {
     @Column(name = "otp_generated_time")
     private LocalDateTime otpGeneratedTime;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "user_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
-    private Set<Role> roles;
+    @ManyToOne
+    @JoinColumn(name = "role_id")
+    private Role role;
 
 
     @OneToMany(mappedBy = "user")
     private List<ResetPassword> resetPasswords;
 
-    public User(Long id, String firstName, String lastName, String email, String password, Set<Role> roles, boolean verified) {
+    public User(Long id, String firstName, String lastName, String email, String password, Role role, boolean verified) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
-        this.roles = roles;
+        this.role = role;
         this.verified = verified;
     }
 
+    /*
+        @Override
+        public Collection<? extends GrantedAuthority> getAuthorities() {
+            return roles.stream()
+                    .map(role -> new SimpleGrantedAuthority(role.getName()))
+                    .collect(Collectors.toList());
+        }
+     */
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles.stream()
-                .map(role -> new SimpleGrantedAuthority(role.getName()))
-                .collect(Collectors.toList());
+        return Collections.singletonList(new SimpleGrantedAuthority(role.getName()));
     }
 
     @Override
@@ -120,7 +122,7 @@ public class User implements UserDetails {
                 ", verified=" + verified +
                 ", otp='" + otp + '\'' +
                 ", otpGeneratedTime=" + otpGeneratedTime +
-                ", role=" + roles +
+                ", role=" + role +
                 '}';
     }
 }
