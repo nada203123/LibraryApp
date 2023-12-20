@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Category List</title>
+</head>
+<body>
+<h2>Category List</h2>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="category : ${categoryPage.content}">
+        <td th:text="${category.id}"></td>
+        <td th:text="${category.name}"></td>
+        <td>
+            <a th:href="@{/manager/category/edit/{id}(id=${category.id})}">Edit</a>
+            <a th:href="@{/manager/category/delete/{id}(id=${category.id})}">Delete</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<div th:if="${categoryPage.totalPages > 1}">
+    <div>
+            <span th:if="${categoryPage.hasPrevious()}">
+                <a th:href="@{/manager/category(page=${categoryPage.number - 1})}">Previous</a>
+            </span>
+        <span th:if="${categoryPage.hasNext()}">
+                <a th:href="@{/manager/category(page=${categoryPage.number + 1})}">Next</a>
+            </span>
+    </div>
+</div>
+</body>
+</html>

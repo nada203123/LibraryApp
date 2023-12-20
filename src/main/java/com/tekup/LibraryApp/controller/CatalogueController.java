@@ -27,7 +27,7 @@ public class CatalogueController {
         Page<Book> page = catalogueService.findPaginated(pageNo - 1, PAGE_SIZE);
         var books = page.getContent();
         model.addAttribute("filter", new BookCatalogueFilter());
-        model.addAttribute("categories", categoryService.getAllGategoriesNames());
+        model.addAttribute("categories", categoryService.getAllCategoriesNames());
         model.addAttribute("currentPage", pageNo);
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("totalItems", page.getTotalElements());
@@ -44,7 +44,7 @@ public class CatalogueController {
         Page<Book> page = catalogueService.findBooksByFilters(bookCatalogueFilter,pageNo - 1, PAGE_SIZE);
         var books = page.getContent();
         model.addAttribute("filter",bookCatalogueFilter);
-        model.addAttribute("categories", categoryService.getAllGategoriesNames());
+        model.addAttribute("categories", categoryService.getAllCategoriesNames());
         model.addAttribute("currentPage", pageNo);
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("totalItems", page.getTotalElements());

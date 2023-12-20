@@ -4,7 +4,7 @@ import com.tekup.LibraryApp.exception.ResourceNotFoundException;
 import com.tekup.LibraryApp.model.library.Category;
 import com.tekup.LibraryApp.model.user.Role;
 import com.tekup.LibraryApp.model.user.User;
-import com.tekup.LibraryApp.repository.library.CategoryRepo;
+import com.tekup.LibraryApp.repository.library.CategoryRepository;
 import com.tekup.LibraryApp.repository.user.RoleRepository;
 import com.tekup.LibraryApp.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +21,7 @@ public class UserServiceImp implements UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
-    private final CategoryRepo categoryRepo;
+    private final CategoryRepository categoryRepo;
     private void seedRoles() {
         roleRepository.save(new Role(1L, "ADMIN"));
         roleRepository.save(new Role(2L, "READER"));
