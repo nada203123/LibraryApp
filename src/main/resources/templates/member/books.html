@@ -8,7 +8,7 @@
 <div layout:fragment="content">
     <div class="row">
         <h1 class="mt-4 mb-4">Book Reservation Page</h1>
-        <form th:action="@{/books}" method="post">
+        <form th:action="@{/member/books}" method="post">
 
 
             <div class="form-group">
@@ -16,7 +16,7 @@
                 <input type="text" id="title" name="title" class="form-control" th:value="${filter.title}"/>
             </div>
 
-            <div class="form-group">
+            <div th:if="${categories.size() > 0}" class="form-group">
                 <label>Categories:</label>
                 <div class="checkbox-group">
                     <div th:each="category : ${categories}" class="checkbox-item">
