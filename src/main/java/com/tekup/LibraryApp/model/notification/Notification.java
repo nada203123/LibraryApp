@@ -1,8 +1,9 @@
 package com.tekup.LibraryApp.model.notification;
 
+import com.tekup.LibraryApp.model.user.User;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.security.core.userdetails.User;
+
 
 import java.time.LocalDateTime;
 
