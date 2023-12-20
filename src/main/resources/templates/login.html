@@ -1,115 +1,107 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>Registration and Login System</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-        rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-        crossorigin="anonymous">
-  <style>
-    body {
-      background-color: #f8f9fa;
-    }
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" th:href="@{/assets/images/favicon-32x32.png}" type="image/png"/>
+    <!-- Bootstrap CSS -->
+    <link th:href="@{/assets/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/assets/css/bootstrap-extended.css}" rel="stylesheet"/>
+    <link th:href="@{/assets/css/style.css}" rel="stylesheet"/>
+    <link th:href="@{/assets/css/icons.css}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet">
 
-    .navbar {
-      background-color: #343a40;
-    }
+    <!-- loader-->
+    <link th:href="@{/assets/css/pace.min.css}" rel="stylesheet"/>
 
-    .navbar-brand {
-      color: #ffffff;
-    }
-
-    .navbar-toggler-icon {
-      background-color: #ffffff;
-    }
-
-    .card {
-      border: 1px solid #dcdcdc;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    .card-header {
-      background-color: #343a40;
-      color: #ffffff;
-    }
-
-    .form-group {
-      margin-bottom: 1.5rem;
-    }
-
-    .btn-primary {
-      background-color: #007bff;
-      border-color: #007bff;
-    }
-
-    .btn-primary:hover {
-      background-color: #0056b3;
-      border-color: #0056b3;
-    }
-
-    .alert {
-      margin-bottom: 1.5rem;
-    }
-    .container{
-      position: absolute;
-      top: 45%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      padding: 10px;
-
-    }
-  </style>
+    <title>Login</title>
 </head>
 <body>
 
-<div class="container">
-  <div class="row">
-    <div class="col-md-6 offset-md-3">
+<!--start wrapper-->
+<div class="wrapper">
 
-      <div th:if="${param.error}" class="alert alert-danger">
-        Invalid Email or Password
-      </div>
-      <div th:if="${param.logout}" class="alert alert-success">
-        You have been logged out.
-      </div>
+    <!--start content-->
+    <main class="authentication-content">
+        <div class="container-fluid">
+            <div class="authentication-card">
 
-      <div class="card">
-        <div class="card-header">
-          <h2 class="text-center">Login Form</h2>
+                <div class="card shadow rounded-0 overflow-hidden">
+                    <div class="row g-0">
+                        <div class="col-lg-6 bg-login d-flex align-items-center justify-content-center">
+                            <img th:src="@{/assets/images/error/login-img.jpg}" class="img-fluid" alt="">
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="card-body p-4 p-sm-5">
+                                <div th:if="${param.error}" class="alert alert-danger">
+                                    Invalid Email or Password
+                                </div>
+                                <div th:if="${param.logout}" class="alert alert-success">
+                                    You have been logged out.
+                                </div>
+                                <h5 class="card-title">Sign In</h5>
+                                <p class="card-text mb-1">Explore the vast collection and manage your library with ease!</p>
+                                <form class="form-body" method="post" role="form" th:action="@{/login}">
+                                    <div class="login-separater text-center mb-4">
+                                        <span>Enter your credentials</span>
+                                        <hr>
+                                    </div>
+                                    <div class="row g-3 mt-3">
+                                        <div class="col-12">
+                                            <label for="inputEmailAddress" class="form-label">Email Address</label>
+                                            <div class="ms-auto position-relative">
+                                                <div class="position-absolute top-50 translate-middle-y search-icon px-3">
+                                                    <i class="bi bi-envelope-fill"></i></div>
+                                                <input type="email" class="form-control radius-30 ps-5"
+                                                       name="username"
+                                                       id="inputEmailAddress" placeholder="Email Address">
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <label for="inputChoosePassword" class="form-label">Enter Password</label>
+                                            <div class="ms-auto position-relative">
+                                                <div class="position-absolute top-50 translate-middle-y search-icon px-3">
+                                                    <i class="bi bi-lock-fill"></i></div>
+                                                <input type="password" class="form-control radius-30 ps-5"
+                                                       name="password"
+                                                       id="inputChoosePassword" placeholder="Enter Password">
+                                            </div>
+                                        </div>
+                                        <div class="col-6 mb-3">
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input" type="checkbox"
+                                                       id="flexSwitchCheckChecked" checked="">
+                                                <label class="form-check-label" for="flexSwitchCheckChecked">Remember
+                                                    Me</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 text-end"><a th:href="@{/forgot-password}">Forgot
+                                            Password ?</a>
+                                        </div>
+                                        <div class="col-12 ">
+                                            <div class="d-grid">
+                                                <button type="submit" class="btn btn-primary radius-30">Sign In</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="card-body">
-          <form method="post" role="form" th:action="@{/login}" class="form-horizontal">
-            <div class="form-group mb-3">
-              <label class="control-label">Email</label>
-              <input type="text" id="username" name="username" class="form-control"
-                     placeholder="Enter email address"/>
-            </div>
+    </main>
+    <!--end page main-->
 
-            <div class="form-group mb-3">
-              <label class="control-label">Password</label>
-              <input type="password" id="password" name="password" class="form-control"
-                     placeholder="Enter password"/>
-            </div>
-            <div class="form-group mb-3">
-              <button type="submit" class="btn btn-primary">Submit</button>
-              <a th:href="@{/register}" class="mx-2">Register</a>
-              <a th:href="@{/forgot-password}">Forgot password</a>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
 </div>
+<!--end wrapper-->
+<!-- Bootstrap bundle JS -->
+<!--plugins-->
+<script th:src="@{/assets/js/jquery.min.js}"></script>
+<script th:src="@{/assets/js/pace.min.js}"></script>
 
-<!-- Include Bootstrap JS and Popper.js -->
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
-        integrity="sha384-L4GTU6+Kb5BSG7RJZ9aPOeSv9zC7T/iUIdB2lGG+AvOZIljgRPF3b1oPbu4r+1Hy"
-        crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
-        integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofxFYxYqFcCrrWAQq3b1J7G6WGfRTt8DEB"
-        crossorigin="anonymous"></script>
 </body>
 </html>

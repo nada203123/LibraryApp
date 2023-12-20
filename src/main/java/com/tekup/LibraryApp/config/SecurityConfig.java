@@ -21,6 +21,7 @@ public class SecurityConfig {
             "/forgot-password",
             "/reset-password/**",
             "/index",
+            "/assets/**",
     };
     private final AuthenticationProvider authenticationProvider;
 
