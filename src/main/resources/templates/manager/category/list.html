@@ -1,39 +1,77 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{manager/layout.html}">
 <head>
     <title>Category List</title>
 </head>
 <body>
-<h2>Category List</h2>
-<table>
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Action</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="category : ${categoryPage.content}">
-        <td th:text="${category.id}"></td>
-        <td th:text="${category.name}"></td>
-        <td>
-            <a th:href="@{/manager/category/edit/{id}(id=${category.id})}">Edit</a>
-            <a th:href="@{/manager/category/delete/{id}(id=${category.id})}">Delete</a>
-        </td>
-    </tr>
-    </tbody>
-</table>
-
-<div th:if="${categoryPage.totalPages > 1}">
-    <div>
-            <span th:if="${categoryPage.hasPrevious()}">
-                <a th:href="@{/manager/category(page=${categoryPage.number - 1})}">Previous</a>
-            </span>
-        <span th:if="${categoryPage.hasNext()}">
-                <a th:href="@{/manager/category(page=${categoryPage.number + 1})}">Next</a>
-            </span>
+<div layout:fragment="content">
+    <div class="row">
+        <div class="col-12">
+            <div class="card w-100">
+                <div class="card-header py-3">
+                    <div class="row g-3">
+                        <div class="col-lg-4 col-md-6 me-auto">
+                            <div class="ms-auto position-relative">
+                                <div class="position-absolute top-50 translate-middle-y search-icon px-3">
+                                    <i class="bi bi-search"></i>
+                                </div>
+                                <input id="searchInput" class="form-control ps-5" type="text"
+                                       placeholder="Search by name">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table align-middle">
+                            <thead class="table-light">
+                            <tr>
+                                <th>ID</th>
+                                <th>Category Name</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="category : ${categoryPage.content}">
+                                <td th:text="${category.id}"></td>
+                                <td th:text="${category.name}"></td>
+                                <td>
+                                    <div class="d-flex align-items-center gap-3 fs-6">
+                                        <a th:href="@{/manager/category/edit/{id}(id=${category.id})}"
+                                           class="text-warning" data-bs-toggle="tooltip"
+                                           data-bs-placement="bottom" title="" data-bs-original-title="Edit info"
+                                           aria-label="Edit"><i class="bi bi-pencil-fill"></i></a>
+                                        <a th:href="@{/manager/category/delete/{id}(id=${category.id})}"
+                                           class="text-danger" data-bs-toggle="tooltip"
+                                           data-bs-placement="bottom" title="" data-bs-original-title="Delete"
+                                           aria-label="Delete"><i class="bi bi-trash-fill"></i></a>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <nav class="float-end" aria-label="Page navigation">
+                        <ul class="pagination">
+                            <li class="page-item" th:classappend="${categoryPage.first} ? 'disabled' : ''">
+                                <a class="page-link" th:href="@{/manager/category(page=0)}">Previous</a>
+                            </li>
+                            <li class="page-item" th:each="i : ${#numbers.sequence(0, categoryPage.totalPages - 1)}"
+                                th:classappend="${categoryPage.number == i} ? 'active' : ''">
+                                <a class="page-link" th:href="@{/manager/category(page=${i})}" th:text="${i + 1}"></a>
+                            </li>
+                            <li class="page-item" th:classappend="${categoryPage.last} ? 'disabled' : ''">
+                                <a class="page-link"
+                                   th:href="@{/manager/category(page=${categoryPage.totalPages - 1})}">Next</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+
 </body>
 </html>

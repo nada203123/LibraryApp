@@ -40,31 +40,30 @@
                             </div>
 
                             <div class="col-12 col-md-6">
-                                <label class="control-label">Category</label>
+                                <label class="control-label">Categories</label>
                                 <div th:each="category : ${allCategories}">
-                                    <input type="checkbox" th:id="${'category-' + category.id}" th:name="categories"
-                                           th:value="${category.name}"
-                                           class="form-check-input"/>
+                                    <input type="checkbox" th:id="${'category-' + category.id}" th:name="categoryIds"
+                                           th:value="${category.id}" class="form-check-input"/>
                                     <label th:for="${'category-' + category.id}" th:text="${category.name}"
                                            class="form-check-label"></label>
                                     <br/>
                                 </div>
                             </div>
 
+
                             <div class="col-12">
                                 <label class="form-label">Images</label>
                                 <input class="form-control" type="file">
                             </div>
                             <div class="col-12">
-                                <button class="btn btn-primary px-4" type="submit">Submit Item</button>
+                                <button class="btn btn-primary px-4" type="submit">Add Book</button>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
-    </div><!--end row-->
-    <!--end page main-->
+    </div>
 </div>
 </body>
 </html>
