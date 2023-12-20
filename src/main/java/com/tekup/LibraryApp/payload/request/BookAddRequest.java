@@ -1,5 +1,6 @@
 package com.tekup.LibraryApp.payload.request;
 
+import com.tekup.LibraryApp.model.library.Category;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -16,7 +17,7 @@ public class BookAddRequest {
     private String title;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate publicationDate;
-    private Set<String> categories;
+    private Set<Category> categories;
     public int numberOfCopies;
     String imageUrl;
     int numberPages;

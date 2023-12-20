@@ -1,6 +1,7 @@
 package com.tekup.LibraryApp.controller.manager.book;
 
 import com.tekup.LibraryApp.model.library.Book;
+import com.tekup.LibraryApp.model.library.Category;
 import com.tekup.LibraryApp.payload.request.BookAddRequest;
 import com.tekup.LibraryApp.service.Book.BookService;
 import com.tekup.LibraryApp.service.catalogue.CatalogueService;
@@ -10,6 +11,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -45,9 +48,9 @@ public class BookController {
     public String showEditBookForm(@PathVariable Long id, Model model) {
         Book book = bookService.getBookById(id);
         model.addAttribute("book", book);
+        model.addAttribute("allCategories", categoryService.getAllCategories());
         return "manager/book/edit";
     }
-
 
     @PostMapping("/manager/book/edit/{id}")
     public String updateBook(@PathVariable Long id, @ModelAttribute("book") BookAddRequest bookAddRequest) {

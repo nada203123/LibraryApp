@@ -11,6 +11,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "categories")
+@ToString
 public class Category {
 
     @Id

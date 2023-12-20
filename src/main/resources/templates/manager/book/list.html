@@ -25,20 +25,21 @@
                 <td th:text="${book.publicationDate}"></td>
                 <td th:text="${book.countAvailableCopies()}" class="available"></td>
                 <td th:text="${book.countUnavailableCopies()}" class="unavailable"></td>
+
                 <td>
-                    <a
-                            th:href="@{'/manager/book/edit/'+${book.id}}"
-                            class="btn btn-primary btn-sm btn-add-book">edit</a>
-                </td>
-                <td>
-                    <a th:if="${!book.archived}"
-                       th:href="@{'/admin/book/archive?id=' + ${book.id} + '&page=' + ${currentPage}}"
-                       class="btn btn-primary btn-sm btn-add-book">Archive</a>
-                </td>
-                <td>
-                    <a th:if="${book.archived}"
-                       th:href="@{'/admin/book/reveal?id=' + ${book.id} + '&page=' + ${currentPage}}"
-                       class="btn btn-primary btn-sm btn-add-book">Reveal</a>
+                    <div class="d-flex align-items-center gap-3 fs-6">
+                        <a th:href="@{'/manager/book/edit/'+${book.id}}"
+                           class="text-warning" data-bs-toggle="tooltip"
+                           data-bs-placement="bottom" title="" data-bs-original-title="Edit info"
+                           aria-label="Edit"><i class="bi bi-pencil-fill"></i></a>
+
+                        <a th:if="${!book.archived}"
+                           th:href="@{'/admin/book/archive?id=' + ${book.id} + '&page=' + ${currentPage}}"
+                           class="btn btn-primary btn-sm btn-add-book">Archive</a>
+                        <a th:if="${book.archived}"
+                           th:href="@{'/admin/book/reveal?id=' + ${book.id} + '&page=' + ${currentPage}}"
+                           class="btn btn-primary btn-sm btn-add-book">Reveal</a>
+                    </div>
                 </td>
             </tr>
             </tbody>

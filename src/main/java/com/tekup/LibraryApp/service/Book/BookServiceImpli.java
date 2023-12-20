@@ -3,12 +3,12 @@ package com.tekup.LibraryApp.service.Book;
 import com.tekup.LibraryApp.exception.ResourceNotFoundException;
 import com.tekup.LibraryApp.model.library.Book;
 import com.tekup.LibraryApp.model.library.BookCopy;
-import com.tekup.LibraryApp.model.library.Category;
 import com.tekup.LibraryApp.model.library.StatusCopy;
 import com.tekup.LibraryApp.payload.request.BookAddRequest;
 import com.tekup.LibraryApp.repository.library.BookCopyRepo;
 import com.tekup.LibraryApp.repository.library.BookRepo;
 import com.tekup.LibraryApp.repository.library.CategoryRepository;
+import com.tekup.LibraryApp.service.category.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +22,7 @@ public class BookServiceImpli implements BookService {
 
     private final BookRepo bookRepo;
     private final CategoryRepository categoryRepo;
+    private final CategoryService categoryService;
 
     private final BookCopyRepo bookCopyRepo;
 
@@ -33,18 +34,20 @@ public class BookServiceImpli implements BookService {
 
     @Override
     public String addBook(BookAddRequest bookAddRequest) {
+        /*
         System.out.println(bookAddRequest.getPublicationDate());
+
         Set<Category> categories = bookAddRequest.getCategories().stream()
                 .map(category -> categoryRepo.findByName(category)
                         .orElseGet(() -> categoryRepo.save(new Category(category)))
                 )
                 .collect(Collectors.toSet());
-
+         */
         Set<BookCopy> copies = createBookCopies(bookAddRequest.getNumberOfCopies());
 
         var newBook = Book.builder()
                 .title(bookAddRequest.getTitle())
-                .categories(categories)
+                .categories(bookAddRequest.getCategories())
                 .bookCopies(copies)
                 .publicationDate(bookAddRequest.getPublicationDate())
                 .imageUrl(bookAddRequest.getImageUrl())
@@ -96,6 +99,9 @@ public class BookServiceImpli implements BookService {
                 }
             }
         }
+
+        book.setCategories(bookAddRequest.getCategories());
+
         // Update the book entity
         bookRepo.save(book);
     }
