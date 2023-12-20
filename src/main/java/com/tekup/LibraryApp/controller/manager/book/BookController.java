@@ -1,4 +1,4 @@
-package com.tekup.LibraryApp.controller;
+package com.tekup.LibraryApp.controller.manager.book;
 
 import com.tekup.LibraryApp.model.library.Book;
 import com.tekup.LibraryApp.payload.request.BookAddRequest;
@@ -18,18 +18,18 @@ public class BookController {
     private final CategoryService categoryService;
     private final CatalogueService catalogueService;
 
-    @GetMapping("/admin/book/add")
+    @GetMapping("/manager/book/add")
     public String showAddBookForm(Model model) {
         model.addAttribute("allCategories", categoryService.getAllGategories());
-        return "admin/book/add";
+        return "manager/book/add";
     }
 
-    @PostMapping("/admin/book/add")
+    @PostMapping("/manager/book/add")
     public String addBook(@ModelAttribute("book") BookAddRequest bookAddRequest) {
         return bookService.addBook(bookAddRequest);
     }
 
-    @GetMapping("/admin/book/list")
+    @GetMapping("/manager/book/list")
     public String getPaginatedBooks(@RequestParam(value = "page", defaultValue = "1") int pageNo, Model model) {
         final int PAGE_SIZE = 5;
         Page<Book> page = catalogueService.findPaginated(pageNo - 1, PAGE_SIZE);
@@ -38,35 +38,35 @@ public class BookController {
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("totalItems", page.getTotalElements());
         model.addAttribute("books", books);
-        return "admin/book/list";
+        return "manager/book/list";
     }
 
-    @GetMapping("/admin/book/edit/{id}")
+    @GetMapping("/manager/book/edit/{id}")
     public String showEditBookForm(@PathVariable Long id, Model model) {
         Book book = bookService.getBookById(id);
         model.addAttribute("book", book);
-        return "admin/book/edit";
+        return "manager/book/edit";
     }
 
 
-    @PostMapping("/admin/book/edit/{id}")
+    @PostMapping("/manager/book/edit/{id}")
     public String updateBook(@PathVariable Long id, @ModelAttribute("book") BookAddRequest bookAddRequest) {
         System.out.println(bookAddRequest);
         bookService.updateBook(id, bookAddRequest);
-        return "redirect:/admin/book/list";
+        return "redirect:/manager/book/list";
     }
 
-    @GetMapping("/admin/book/archive")
+    @GetMapping("/manager/book/archive")
     public String archiveBook(@RequestParam Long id,@RequestParam int page) {
         bookService.archiveBook(id);
-        return "redirect:/admin/book/list?page="+page;
+        return "redirect:/manager/book/list?page="+page;
 
     }
     //opposite of archive (didn't find a meaningful word)
-    @GetMapping("/admin/book/reveal")
+    @GetMapping("/manager/book/reveal")
     public String revealBook(@RequestParam Long id,@RequestParam int page) {
         bookService.revealBook(id);
-        return "redirect:/admin/book/list?page="+page;
+        return "redirect:/manager/book/list?page="+page;
 
     }
 }

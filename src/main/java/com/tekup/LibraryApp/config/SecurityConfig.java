@@ -34,6 +34,7 @@ public class SecurityConfig {
                         .requestMatchers(WHITE_LIST_URI)
                         .permitAll()
                         .requestMatchers("/admin/**").hasAuthority("ADMIN")
+                        .requestMatchers("/manager/**").hasAuthority("MANAGER")
 
                         .anyRequest()
                         .authenticated()

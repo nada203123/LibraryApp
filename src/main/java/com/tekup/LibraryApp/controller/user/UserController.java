@@ -31,7 +31,7 @@ public class UserController {
 
         Role MANAGER = roleRepository.findByName("MANAGER").orElseThrow();
         Role MEMBER = roleRepository.findByName("MEMBER").orElseThrow();
-        User MANAGER1 = new User(1L, "Ali", "Admin", "admin@gmail.com", BCrypt.hashpw("admin@gmail.com", BCrypt.gensalt()), Collections.singleton(MANAGER), true);
+        User MANAGER1 = new User(1L, "Ali", "Manager", "manager@gmail.com", BCrypt.hashpw("manager@gmail.com", BCrypt.gensalt()), Collections.singleton(MANAGER), true);
         User MEMBER1 = new User(2L, "Saleh", "Member", "member@gmail.com", BCrypt.hashpw("member@gmail.com", BCrypt.gensalt()), Collections.singleton(MEMBER), true);
         userRepository.saveAll(List.of(MANAGER1, MEMBER1));
         return ResponseEntity.ok().body(Boolean.TRUE);

@@ -77,8 +77,8 @@ public class AuthenticationServiceImp implements AuthenticationService {
             User user = userRepository.findByEmailWithRoles(request.getEmail()).orElseThrow(
                     () -> new ResourceNotFoundException("User not found for email: " + request.getEmail())
             );
-            if (user.isVerified()) {
-                return "redirect:/welcome";
+            if (user.getRoles().equals("MANAGER")) {
+                return "redirect:/manager";
             }
             return "redirect:/login";
         } catch (BadCredentialsException e) {
