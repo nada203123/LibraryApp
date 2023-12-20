@@ -1,4 +1,4 @@
-package com.tekup.LibraryApp.controller;
+package com.tekup.LibraryApp.controller.member;
 
 import com.tekup.LibraryApp.payload.request.ReservationRequest;
 import com.tekup.LibraryApp.service.book.BookService;

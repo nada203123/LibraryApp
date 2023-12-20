@@ -73,7 +73,7 @@ public class BookController {
         return "manager/book/list";
     }
 
-    @GetMapping("/manager/book/search")
+    @GetMapping("/book/search")
     public String searchBooks(@RequestParam(name = "categories", required = false) Long[] categoryIds) {
         String categoriesQueryParam = (categoryIds != null && categoryIds.length > 0) ? String.join(",", Arrays.stream(categoryIds).map(String::valueOf).toArray(String[]::new)) : "";
         return "redirect:/manager/book/list?categories=" + categoriesQueryParam;
@@ -87,7 +87,7 @@ public class BookController {
         return "manager/book/edit";
     }
 
-    @PostMapping("/manager/book/edit/{id}")
+    @PostMapping("/book/edit/{id}")
     public String updateBook(@PathVariable Long id, @ModelAttribute("book") BookAddRequest bookAddRequest) {
         System.out.println(bookAddRequest);
         bookService.updateBook(id, bookAddRequest);

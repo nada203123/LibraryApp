@@ -17,11 +17,11 @@ public interface BookRepo extends JpaRepository<Book, Long> {
             "WHERE " +
             "   (COALESCE(:title, '') = '' OR LOWER(b.title) LIKE LOWER(CONCAT('%', :title, '%'))) " +
             "   AND (COALESCE(:language, '') = '' OR LOWER(b.language) LIKE LOWER(CONCAT('%', :language, '%'))) " +
-            "   AND (:category IS NULL OR c.name IN :category) " +
+            "   AND (:category IS NULL OR c.id IN :category) " +
             "   AND (COALESCE(:author, '') = '' OR LOWER(a.name) = LOWER(:author)) ")
     Page<Book> findByFilters(
             @Param("title") String title,
-            @Param("category") List<String> category,
+            @Param("category") List<Long> category,
             @Param("author") String author,
             @Param("language") String language,
             Pageable pageable
