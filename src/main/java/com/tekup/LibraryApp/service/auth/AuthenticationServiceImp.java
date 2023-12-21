@@ -1,5 +1,6 @@
 package com.tekup.LibraryApp.service.auth;
 
+import com.tekup.LibraryApp.DTO.request.auth.*;
 import com.tekup.LibraryApp.exception.ResourceNotFoundException;
 import com.tekup.LibraryApp.mail.EmailSender;
 import com.tekup.LibraryApp.mail.Otp;
@@ -8,7 +9,6 @@ import com.tekup.LibraryApp.model.library.StatusCard;
 import com.tekup.LibraryApp.model.password.ResetPassword;
 import com.tekup.LibraryApp.model.user.Role;
 import com.tekup.LibraryApp.model.user.User;
-import com.tekup.LibraryApp.payload.request.auth.*;
 import com.tekup.LibraryApp.repository.password.ResetPasswordRepository;
 import com.tekup.LibraryApp.repository.user.RoleRepository;
 import com.tekup.LibraryApp.repository.user.UserRepository;

@@ -1,4 +1,4 @@
-package com.tekup.LibraryApp.payload.request;
+package com.tekup.LibraryApp.DTO.request;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 

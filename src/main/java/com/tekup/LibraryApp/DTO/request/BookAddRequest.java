@@ -1,4 +1,4 @@
-package com.tekup.LibraryApp.payload.request;
+package com.tekup.LibraryApp.DTO.request;
 
 import com.tekup.LibraryApp.model.library.Category;
 import lombok.*;

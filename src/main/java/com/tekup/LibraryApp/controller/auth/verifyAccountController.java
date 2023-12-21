@@ -1,6 +1,6 @@
 package com.tekup.LibraryApp.controller.auth;
 
-import com.tekup.LibraryApp.payload.request.auth.VerifyAccountRequest;
+import com.tekup.LibraryApp.DTO.request.auth.VerifyAccountRequest;
 import com.tekup.LibraryApp.service.auth.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;

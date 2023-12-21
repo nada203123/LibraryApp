@@ -1,6 +1,6 @@
 package com.tekup.LibraryApp.service.auth;
 
-import com.tekup.LibraryApp.payload.request.auth.*;
+import com.tekup.LibraryApp.DTO.request.auth.*;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.security.Principal;

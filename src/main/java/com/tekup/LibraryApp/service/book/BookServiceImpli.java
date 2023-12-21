@@ -4,7 +4,7 @@ import com.tekup.LibraryApp.exception.ResourceNotFoundException;
 import com.tekup.LibraryApp.model.library.Book;
 import com.tekup.LibraryApp.model.library.BookCopy;
 import com.tekup.LibraryApp.model.library.StatusCopy;
-import com.tekup.LibraryApp.payload.request.BookAddRequest;
+import com.tekup.LibraryApp.DTO.request.BookAddRequest;
 import com.tekup.LibraryApp.repository.library.BookCopyRepo;
 import com.tekup.LibraryApp.repository.library.BookRepo;
 import com.tekup.LibraryApp.service.notification.NotificationService;

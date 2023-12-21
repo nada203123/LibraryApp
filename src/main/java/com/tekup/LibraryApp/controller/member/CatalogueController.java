@@ -1,15 +1,17 @@
 package com.tekup.LibraryApp.controller.member;
 
+import com.tekup.LibraryApp.DTO.request.BookCatalogueFilter;
 import com.tekup.LibraryApp.model.library.Book;
-import com.tekup.LibraryApp.payload.request.BookCatalogueFilter;
-import com.tekup.LibraryApp.payload.request.ReservationRequest;
 import com.tekup.LibraryApp.service.catalogue.CatalogueService;
 import com.tekup.LibraryApp.service.category.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RequiredArgsConstructor
 @Controller
@@ -44,6 +46,5 @@ public class CatalogueController {
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("totalItems", page.getTotalElements());
         model.addAttribute("books", books);
-        model.addAttribute("reservationRequest", new ReservationRequest());
     }
 }

@@ -1,6 +1,6 @@
 package com.tekup.LibraryApp.controller.auth;
 
-import com.tekup.LibraryApp.payload.request.auth.LoginRequest;
+import com.tekup.LibraryApp.DTO.request.auth.LoginRequest;
 import com.tekup.LibraryApp.service.auth.AuthenticationService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +29,7 @@ public class LoginController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (SecurityContextHolder.getContext().getAuthentication() != null &&
                 !(authentication instanceof AnonymousAuthenticationToken))
-            return "home";
+            return "index";
 
         return "login";
     }

@@ -1,4 +1,4 @@
-package com.tekup.LibraryApp.payload.request.auth;
+package com.tekup.LibraryApp.DTO.request.auth;
 
 import com.tekup.LibraryApp.validation.password.PasswordMatching;
 import com.tekup.LibraryApp.validation.password.StrongPassword;

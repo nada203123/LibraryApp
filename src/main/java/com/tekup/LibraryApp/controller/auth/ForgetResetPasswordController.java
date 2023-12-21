@@ -1,7 +1,7 @@
 package com.tekup.LibraryApp.controller.auth;
 
-import com.tekup.LibraryApp.payload.request.auth.ForgotPasswordRequest;
-import com.tekup.LibraryApp.payload.request.auth.ResetPasswordRequest;
+import com.tekup.LibraryApp.DTO.request.auth.ForgotPasswordRequest;
+import com.tekup.LibraryApp.DTO.request.auth.ResetPasswordRequest;
 import com.tekup.LibraryApp.service.auth.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;

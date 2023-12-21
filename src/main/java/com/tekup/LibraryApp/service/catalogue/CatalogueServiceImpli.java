@@ -1,7 +1,7 @@
 package com.tekup.LibraryApp.service.catalogue;
 
 import com.tekup.LibraryApp.model.library.Book;
-import com.tekup.LibraryApp.payload.request.BookCatalogueFilter;
+import com.tekup.LibraryApp.DTO.request.BookCatalogueFilter;
 import com.tekup.LibraryApp.repository.library.BookRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

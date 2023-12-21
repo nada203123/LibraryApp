@@ -1,7 +1,7 @@
 package com.tekup.LibraryApp.service.book;
 
 import com.tekup.LibraryApp.model.library.Book;
-import com.tekup.LibraryApp.payload.request.BookAddRequest;
+import com.tekup.LibraryApp.DTO.request.BookAddRequest;
 
 public interface BookService {
     String addBook(BookAddRequest bookAddRequest);

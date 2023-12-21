@@ -53,7 +53,7 @@
                     </div>
                     <p th:text="'Book ID: ' + ${book.id}"></p>
 
-                    <form th:action="@{/reserve}" method="post">
+                    <form th:action="@{#}" method="post">
                         <input type="hidden" th:name="bookId" th:value="${book.id}"/>
 
                         <!-- Start Date Input -->
@@ -69,10 +69,13 @@
                         </div>
 
                         <!-- Submit Button -->
-                        <button th:if="${book.countAvailableCopies() > 0}" type="submit" class="btn btn-primary">
-                            Reserve
+                        <button th:if="${book.countAvailableCopies() > 0}" type="submit" class="btn btn-primary"
+                                th:formaction="'/member/borrow?book='+${book.id}">
+                            Borrow
                         </button>
-                        <button th:if="${book.countAvailableCopies() <= 0}" type="submit" class="btn btn-success">Loan
+                        <button th:if="${book.countAvailableCopies() <= 0}" type="submit" class="btn btn-success"
+                                th:formaction="'/member/request?book='+${book.id}">
+                            Request
                         </button>
                     </form>
                 </div>
