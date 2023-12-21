@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{member/layout.html}">
+<head>
+    <title>Library App - Member Requests</title>
+
+</head>
+<body class="container">
+
+<h2 class="mt-3">Book Requests</h2>
+<h3 class="mt-4">Your Requests:</h3>
+<div layout:fragment="content">
+    <table class="table mt-2">
+    <thead>
+    <tr>
+        <th>Book Title</th>
+        <th>Request Date</th>
+        <th>Request Status</th>
+
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="request : ${userRequests}">
+        <td th:text="${request.book.title}"></td>
+        <td th:text="${#temporals.format(request.requestDate, 'yyyy-MM-dd HH:mm')}"></td>
+        <td th:text="${request.requestStatus}"></td>
+
+        <td>
+            <form method="post" th:action="@{/member/request/cancel}">
+                <input type="hidden" name="requestId" th:value="${request.id}"/>
+                <button type="submit" class="btn btn-danger">Cancel Request</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</div>
+
+
+</body>
+</html>

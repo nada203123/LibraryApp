@@ -21,7 +21,7 @@ public class Request {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
@@ -29,8 +29,11 @@ public class Request {
     private LocalDateTime requestDate;
 
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "book_id", nullable = false)
-    private Book bookRequested;
+    private Book book;
+
+    @Column(name = "status")
+    private RequestStatus requestStatus;
 
 }
