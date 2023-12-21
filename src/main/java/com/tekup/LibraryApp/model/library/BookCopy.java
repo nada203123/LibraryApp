@@ -26,7 +26,7 @@ public class BookCopy {
     private StatusCopy  statusCopy;
 
     @OneToMany(mappedBy = "bookCopy")
-    private Set<Reservation> reservations;
+    private Set<Borrow> borrows;
 
 
     public BookCopy(StatusCopy statusCopy) {

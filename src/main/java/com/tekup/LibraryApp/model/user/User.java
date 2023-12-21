@@ -1,7 +1,8 @@
 package com.tekup.LibraryApp.model.user;
 
+import com.tekup.LibraryApp.model.library.Borrow;
 import com.tekup.LibraryApp.model.library.Card;
-import com.tekup.LibraryApp.model.library.Reservation;
+import com.tekup.LibraryApp.model.library.Request;
 import com.tekup.LibraryApp.model.password.ResetPassword;
 import jakarta.persistence.*;
 import lombok.*;
@@ -14,6 +15,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+
 @Entity
 @Builder
 @Getter
@@ -27,8 +29,10 @@ public class User implements UserDetails {
     private Long id;
 
     @OneToMany(mappedBy = "user")
-    private Set<Reservation> reservations;
+    private Set<Request> requests;
 
+    @OneToMany(mappedBy = "user")
+    private Set<Borrow> borrows;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "card_id", referencedColumnName = "id")
     Card card;
