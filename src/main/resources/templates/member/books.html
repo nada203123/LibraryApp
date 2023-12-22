@@ -37,7 +37,7 @@
                             <label class="control-label">Categories</label>
                             <select class="form-select" id="categories" multiple="multiple" name="categories">
                                 <option th:each="category : ${categories}" th:value="${category.id}"
-                                        th:text="${category.name}" th:selected="${filter.categories != null && filter.categories.contains(category)}"></option>
+                                        th:text="${category.name}" th:selected="${filter.categories != null and filter.categories.contains(category.id)}"></option>
                             </select>
                         </div>
                     </div>

@@ -36,15 +36,6 @@ public class BookServiceImpli implements BookService {
 
     @Override
     public String addBook(BookAddRequest bookAddRequest) {
-        /*
-        System.out.println(bookAddRequest.getPublicationDate());
-
-        Set<Category> categories = bookAddRequest.getCategories().stream()
-                .map(category -> categoryRepo.findByName(category)
-                        .orElseGet(() -> categoryRepo.save(new Category(category)))
-                )
-                .collect(Collectors.toSet());
-         */
         Set<BookCopy> copies = createBookCopies(bookAddRequest.getNumberOfCopies());
 
         var newBook = Book.builder()

@@ -36,7 +36,7 @@ public class CatalogueController {
     private final EntityManager entityManager;
 
     @GetMapping("/books")
-    public String showCatalogue(Model model,Principal principal, @RequestParam(defaultValue = "1", name = "page") int pageNo
+    public String showCatalogue(Model model, Principal principal, @RequestParam(defaultValue = "1", name = "page") int pageNo
     ) {
         final int PAGE_SIZE = 5;
         Page<Book> page = catalogueService.findPaginated(pageNo - 1, PAGE_SIZE);
@@ -87,19 +87,19 @@ public class CatalogueController {
     }
 
     @PostMapping("/books")
-    public String showCatalogueFiltred(Model model,
-                                       @RequestParam(defaultValue = "1", name = "page") int pageNo,
-                                       BookCatalogueFilter bookCatalogueFilter
+    public String showCatalogueFiltred(
+            Model model,
+            @RequestParam(defaultValue = "1", name = "page") int pageNo,
+            BookCatalogueFilter bookCatalogueFilter
     ) {
         final int PAGE_SIZE = 5;
-        Page<Book> page = catalogueService.findBooksByFilters(bookCatalogueFilter,pageNo - 1, PAGE_SIZE);
-        var books = page.getContent();
-        model.addAttribute("filter",bookCatalogueFilter);
+        Page<Book> page = catalogueService.findBooksByFilters(bookCatalogueFilter, pageNo - 1, PAGE_SIZE);
+        model.addAttribute("filter", bookCatalogueFilter);
         model.addAttribute("categories", categoryService.getAllCategories());
         model.addAttribute("currentPage", pageNo);
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("totalItems", page.getTotalElements());
-        model.addAttribute("books", books);
+        model.addAttribute("books", page.getContent());
         model.addAttribute("reservationRequest", new ReservationRequest());
         return "/member/books";
     }

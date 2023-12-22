@@ -8,8 +8,9 @@ import java.util.List;
 
 public interface CatalogueService {
     Page<Book> findPaginated(int pageNo, int pageSize);
+
     Page<Book> findBooksByFilters(BookCatalogueFilter bookCatalogueFilter, int pageNo, int pageSize);
 
-    Page<Book> findPaginatedBySelectedCategories(List<Long> categories, int pageNo, int pageSize);
+    Page<Book> findPaginatedBySelectedCategories(List<Long> categories, Long categoryCount, int pageNo, int pageSize);
 
 }
