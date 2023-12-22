@@ -21,7 +21,7 @@ public class RequestController {
         model.addAttribute("userRequests", requestService.getRequests(user));
         return "member/requested_books";
     }
-    @PostMapping("/request")
+    @GetMapping("/request")
     public String requestBook(@RequestParam(name = "bookId") Long bookId,
                               Principal user
     ) {
