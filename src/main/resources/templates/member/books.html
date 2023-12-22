@@ -13,35 +13,37 @@
         <div class="card">
             <div class="card-header py-3">
                 <div class="row g-3 align-items-center">
-                    <div class="col-lg-3 col-md-6 me-auto">
+                    <div class="col me-auto">
                         <div class="ms-auto position-relative">
                             <input type="text" id="title" name="title" class="form-control" th:value="${filter.title}"
                                    placeholder="Title"
                             />
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-6 me-auto">
+                    <div class="col me-auto">
                         <div class="ms-auto position-relative">
                             <input type="text" id="author" name="author" class="form-control"
                                    th:value="${filter.author}" placeholder="Author Name"/>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-6 me-auto">
+                    <div class="col me-auto">
                         <div class="ms-auto position-relative">
                             <input type="text" id="language" name="language" class="form-control"
                                    th:value="${filter.language}" placeholder="Language"/>
                         </div>
                     </div>
-                    <div class="col-lg-2 col-6 col-md-3">
+                    <div class="col-md-1 text-end">
+                    <label class="control-label text-end">Categories</label>
+                    </div>
+                    <div class="col-md-3">
                         <div class="form-group">
-                            <label class="control-label">Categories</label>
                             <select class="form-select" id="categories" multiple="multiple" name="categories">
                                 <option th:each="category : ${categories}" th:value="${category.id}"
                                         th:text="${category.name}" th:selected="${filter.categories != null and filter.categories.contains(category.id)}"></option>
                             </select>
                         </div>
                     </div>
-                    <div class="col-lg-2 col-6 col-md-3">
+                    <div class="col-md-1">
                         <button type="submit" class="btn btn-success">Search</button>
                     </div>
                 </div>
