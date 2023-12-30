@@ -3,6 +3,7 @@ package com.tekup.LibraryApp.DTO.request;
 import com.tekup.LibraryApp.model.library.Category;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.util.Set;
@@ -18,8 +19,8 @@ public class BookAddRequest {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate publicationDate;
     private Set<Category> categories;
-    public int numberOfCopies;
-    String imageUrl;
-    int numberPages;
-    String language;
+    private int numberOfCopies;
+    private MultipartFile imageUrl;
+    private int numberPages;
+    private String language;
 }

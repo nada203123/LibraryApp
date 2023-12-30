@@ -17,7 +17,7 @@
                 </div>
                 <div class="card-body">
                     <div class="border p-3 rounded">
-                        <form class="row g-3" method="post" role="form" th:action="@{/manager/book/add}">
+                        <form class="row g-3" method="post" role="form" enctype="multipart/form-data" th:action="@{/manager/book/add}">
                             <div class="col-12">
                                 <label class="form-label" for="title">Book title</label>
                                 <input type="text" id="title" name="title" class="form-control"
@@ -52,8 +52,8 @@
 
 
                             <div class="col-12">
-                                <label class="form-label">Images</label>
-                                <input class="form-control" type="file">
+                                <label class="form-label" for="imageUrl">Image</label>
+                                <input id="imageUrl" name="imageUrl" accept="image/*" class="form-control" type="file">
                             </div>
                             <div class="col-12">
                                 <button class="btn btn-primary px-4" type="submit">Add Book</button>
