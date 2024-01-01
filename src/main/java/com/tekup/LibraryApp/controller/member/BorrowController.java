@@ -23,14 +23,19 @@ import java.util.Locale;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/member/borrow")
+@RequestMapping("/member")
 public class BorrowController {
     private final BorrowService borrowService;
     private final BookService bookService;
     private final NotificationService notificationService;
     private final EntityManager entityManager;
 
-    @GetMapping
+    @GetMapping("/borrows")
+    public String showRequests(Model model, Principal user) {
+        model.addAttribute("userBorrows", borrowService.getBorrows(user));
+        return "member/borrowed_books";
+    }
+    @GetMapping("/borrow")
     String showBorrowForm(
             Model model,
             @RequestParam(name = "bookId") Long bookId,
@@ -78,12 +83,11 @@ public class BorrowController {
         }
     }
 
-    @PostMapping
+    @PostMapping("/borrow")
     String borrowBook(@ModelAttribute("borrow") BorrowBookRequest borrowBookRequest, Principal user) {
         System.out.println(borrowBookRequest);
         borrowService.borrowRequest(borrowBookRequest, user);
-        return "redirect:/member/books";
-        //return redirect:/member/myborrows
+        return "redirect:/member/borrows";
     }
 
 }

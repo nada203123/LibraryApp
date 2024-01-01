@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{member/layout.html}">
+<head>
+    <title>Library App - Member Borrows</title>
+
+</head>
+<body class="container">
+
+<h2 class="mt-3">Book Borrowed</h2>
+<div layout:fragment="content">
+    <table class="table mt-2">
+    <thead>
+    <tr>
+        <th>Book Title</th>
+        <th>Borrow Date</th>
+        <th>Return Date</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="request : ${userBorrows}">
+        <td th:text="${request.bookCopy.book.title}"></td>
+        <td th:text="${#temporals.format(request.startDate, 'yyyy-MM-dd HH:mm')}"></td>
+        <td th:text="${#temporals.format(request.endDate, 'yyyy-MM-dd HH:mm')}"></td>
+    </tr>
+    </tbody>
+</table>
+</div>
+
+
+</body>
+</html>

@@ -14,6 +14,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -49,5 +50,12 @@ public class BorrowServiceImpli implements BorrowService{
     @Override
     public void borrowRenewal(BorrowRenewalRequest borrowRenewalRequest) {
 
+    }
+
+    @Override
+    public List<Borrow> getBorrows(Principal user) {
+        User member = (User) ((UsernamePasswordAuthenticationToken) user).getPrincipal();
+        entityManager.detach(member);
+        return borrowRepo.findAllByUserId(member.getId());
     }
 }
