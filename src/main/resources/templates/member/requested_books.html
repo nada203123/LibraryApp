@@ -27,7 +27,9 @@
         <td th:text="${request.requestStatus}"></td>
 
         <td>
-            <form method="post" th:action="@{/member/request/cancel}">
+            <form method="post" th:action="@{/member/request/cancel}"
+
+                  th:if="${request.requestStatus == T(com.tekup.LibraryApp.model.library.RequestStatus).PENDING}">
                 <input type="hidden" name="requestId" th:value="${request.id}"/>
                 <button type="submit" class="btn btn-danger">Cancel Request</button>
             </form>
