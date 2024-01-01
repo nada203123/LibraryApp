@@ -16,16 +16,16 @@ import java.util.List;
 public class CatalogueServiceImpli implements CatalogueService {
     private final BookRepo bookRepo;
 
-
     @Override
     public Page<Book> findBooksByFilters(BookCatalogueFilter bookCatalogueFilter, int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        System.out.println(bookCatalogueFilter);
-        return bookRepo.findByFilters(bookCatalogueFilter.getTitle(),
+        Long categoryCount = (bookCatalogueFilter.getCategories() != null) ? (long) bookCatalogueFilter.getCategories().size() : null;
+        return bookRepo.findByFilters(
+                bookCatalogueFilter.getTitle(),
                 bookCatalogueFilter.getCategories(),
+                categoryCount,
                 bookCatalogueFilter.getAuthor(),
                 bookCatalogueFilter.getLanguage(),
-                pageable);
+                PageRequest.of(page, size));
     }
 
     @Override
@@ -35,7 +35,10 @@ public class CatalogueServiceImpli implements CatalogueService {
     }
 
     @Override
-    public Page<Book> findPaginatedBySelectedCategories(List<Long> categories, int pageNo, int pageSize) {
-        return bookRepo.findPaginatedByCategories(categories, PageRequest.of(pageNo, pageSize));
+    public Page<Book> findPaginatedBySelectedCategories(List<Long> categoryIds, Long categoryCount, int pageNo, int pageSize) {
+        return this.bookRepo.findPaginatedByCategories(
+                categoryIds,
+                categoryCount,
+                PageRequest.of(pageNo, pageSize));
     }
 }

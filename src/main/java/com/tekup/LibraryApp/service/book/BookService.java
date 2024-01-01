@@ -6,8 +6,6 @@ import com.tekup.LibraryApp.DTO.request.BookAddRequest;
 public interface BookService {
     String addBook(BookAddRequest bookAddRequest);
 
-
-
     Book getBookById(Long id);
 
     void updateBook(Long id, BookAddRequest bookAddRequest);

@@ -14,7 +14,7 @@
             <div class="input-group">
                 <select class="form-select" id="categories" multiple="multiple" name="categories">
                     <option th:each="category : ${allCategories}" th:value="${category.id}"
-                            th:text="${category.name}" th:selected="${selectedCategoryIds != null && selectedCategoryIds.contains(category.id)}"></option>
+                            th:text="${category.name}" th:selected="${selectedCategoryIds != null and selectedCategoryIds.contains(category.id)}"></option>
                 </select>
                 <button type="submit" class="btn btn-sm btn-primary px-5"><i class="bi bi-funnel"></i>Filter</button>
             </div>
@@ -68,7 +68,7 @@
             </li>
             <li class="page-item" th:each="i: ${#numbers.sequence(1, totalPages)}">
                 <a th:if="${currentPage != i}"
-                   th:href="@{'manager/book/list?page=' + ${i} }"
+                   th:href="@{'/manager/book/list?page=' + ${i} }"
                    class="page-link">[[${i}]]</a>
                 <span th:unless="${currentPage != i}" class="page-link">[[${i}]]</span>
             </li>
@@ -77,7 +77,7 @@
                    class="page-link">Next</a>
             </li>
             <li class="page-item" th:if="${currentPage < totalPages}">
-                <a th:href="@{'manager/book/list?page=' + ${totalPages} }"
+                <a th:href="@{'/manager/book/list?page=' + ${totalPages} }"
                    class="page-link">Last</a>
             </li>
         </ul>

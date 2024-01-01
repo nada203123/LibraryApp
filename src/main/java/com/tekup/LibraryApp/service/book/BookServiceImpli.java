@@ -56,8 +56,9 @@ public class BookServiceImpli implements BookService {
         copies.forEach(bookCopy -> bookCopy.setBook(newBook));
         newBook.setArchived(false);
         bookRepo.save(newBook);
-        String notificationMessage = "New book added: " + bookAddRequest.getTitle();
-        notificationService.sendNotificationToMembers(notificationMessage);
+        String title = "New Book";
+        String msg = bookAddRequest.getTitle();
+        notificationService.sendNotificationToMembers(title, msg);
         return "redirect:/manager/book/add";
     }
 
