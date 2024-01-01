@@ -4,8 +4,6 @@ import com.tekup.LibraryApp.DTO.request.BookCatalogueFilter;
 import com.tekup.LibraryApp.model.library.Book;
 import com.tekup.LibraryApp.model.notification.Notification;
 import com.tekup.LibraryApp.model.user.User;
-import com.tekup.LibraryApp.payload.request.BookCatalogueFilter;
-import com.tekup.LibraryApp.payload.request.ReservationRequest;
 import com.tekup.LibraryApp.service.catalogue.CatalogueService;
 import com.tekup.LibraryApp.service.category.CategoryService;
 import com.tekup.LibraryApp.service.notification.NotificationService;
@@ -48,7 +46,6 @@ public class CatalogueController {
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("totalItems", page.getTotalElements());
         model.addAttribute("books", books);
-        model.addAttribute("reservationRequest", new ReservationRequest());
 
         User member = (User) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
         entityManager.detach(member);
@@ -101,8 +98,6 @@ public class CatalogueController {
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("totalItems", page.getTotalElements());
         model.addAttribute("books", page.getContent());
-        model.addAttribute("reservationRequest", new ReservationRequest());
         return "/member/books";
     }
-
 }

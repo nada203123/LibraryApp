@@ -34,3 +34,5 @@ build/
 
 local/
 /src/main/resources/application.properties
+
+/uploads

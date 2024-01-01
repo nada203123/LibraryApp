@@ -1,5 +1,4 @@
 package com.tekup.LibraryApp.DTO.request;
-import com.tekup.LibraryApp.model.library.Category;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -19,5 +18,5 @@ public class BookCatalogueFilter {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate publicationDate;
     private String author;
-    private List<String> categories;
+    //private List<String> categories;
 }
