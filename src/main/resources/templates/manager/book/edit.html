@@ -31,6 +31,12 @@
                             </div>
 
                             <div class="col-12">
+                                <label class="form-label" for="numberPages">Number of Pages</label>
+                                <input type="number" id="numberPages" name="numberPages" class="form-control"
+                                       placeholder="Enter the number of pages this book has"/>
+                            </div>
+
+                            <div class="col-12">
                                 <label class="form-label" for="numberOfCopies">Copies Number</label>
                                 <input type="number" id="numberOfCopies" name="numberOfCopies" class="form-control"
                                        placeholder="Enter the Number of copies" th:value="${book.bookCopies.size()}"/>

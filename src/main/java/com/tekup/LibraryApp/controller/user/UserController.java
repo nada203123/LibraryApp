@@ -30,7 +30,9 @@ public class UserController {
 
         User MANAGER1 = new User(1L, "Ali", "Manager", "manager@gmail.com", BCrypt.hashpw("manager@gmail.com", BCrypt.gensalt()), MANAGER, true);
         User MEMBER1 = new User(2L, "Saleh", "Member", "member@gmail.com", BCrypt.hashpw("member@gmail.com", BCrypt.gensalt()), MEMBER, true);
-        userRepository.saveAll(List.of(MANAGER1, MEMBER1));
+        User MEMBER2 = new User(3L, "Hamadi", "Member", "member2@gmail.com", BCrypt.hashpw("member2@gmail.com", BCrypt.gensalt()), MEMBER, true);
+
+        userRepository.saveAll(List.of(MANAGER1, MEMBER1,MEMBER2));
         return ResponseEntity.ok().body(Boolean.TRUE);
     }
 

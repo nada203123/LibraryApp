@@ -759,6 +759,13 @@ html.dark-theme .bg-body {
 
 }
 
+html.dark-theme .select2-selection__choice__display{
+color:black !important;
+}
+
+html.dark-theme .select2-selection.select2-selection--multiple{
+background-color:#1a2232;
+}
 
 
 
